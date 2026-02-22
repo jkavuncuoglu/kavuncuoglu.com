@@ -28,6 +28,10 @@ const sidebarNavItems: NavItem[] = [
         title: 'Appearance',
         href: editAppearance(),
     },
+    {
+        title: 'Knowledge Base',
+        href: '/settings/knowledge-base',
+    },
 ];
 
 const { isCurrentUrl } = useCurrentUrl();

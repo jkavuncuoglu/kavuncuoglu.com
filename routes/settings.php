@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\KnowledgeBaseController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
@@ -28,4 +29,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');
+
+    Route::get('settings/knowledge-base', [KnowledgeBaseController::class, 'index'])
+        ->name('knowledge-base.index');
+    Route::post('settings/knowledge-base', [KnowledgeBaseController::class, 'store'])
+        ->name('knowledge-base.store');
+    Route::post('settings/knowledge-base/upload', [KnowledgeBaseController::class, 'upload'])
+        ->name('knowledge-base.upload');
+    Route::delete('settings/knowledge-base/{document}', [KnowledgeBaseController::class, 'destroy'])
+        ->name('knowledge-base.destroy');
 });

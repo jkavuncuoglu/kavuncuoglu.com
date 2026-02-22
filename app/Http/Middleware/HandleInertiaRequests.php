@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -42,6 +43,27 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'locale' => app()->getLocale(),
+            'availableLocales' => ['en', 'de', 'tr', 'es'],
+            'localizedUrls' => $this->buildLocalizedUrls($request),
         ];
+    }
+
+    private function buildLocalizedUrls(Request $request): array
+    {
+        $locale = app()->getLocale();
+        $path   = ltrim($request->path(), '/');
+
+        return Collection::make(['en', 'de', 'tr', 'es'])->mapWithKeys(function ($l) use ($locale, $path) {
+            if ($locale !== 'en' && str_starts_with($path, $locale)) {
+                $newPath = $l . substr($path, strlen($locale));
+            } elseif (str_starts_with($path, 'en')) {
+                $newPath = $l . substr($path, 2);
+            } else {
+                $newPath = $l;
+            }
+
+            return [$l => '/' . ltrim($newPath, '/')];
+        })->all();
     }
 }

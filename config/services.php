@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    'ollama' => [
+        'url' => env('OLLAMA_BASE_URL', 'http://ollama:11434'),
+        'model' => env('OLLAMA_MODEL', 'llama3.2'),
+        'embedding_model' => env('OLLAMA_EMBEDDING_MODEL', 'nomic-embed-text'),
+        'timeout' => env('OLLAMA_TIMEOUT', 120),
+        // Performance tuning options
+        'num_ctx' => (int) env('OLLAMA_NUM_CTX', 4096),
+        'num_predict' => (int) env('OLLAMA_NUM_PREDICT', 512),
+        'temperature' => (float) env('OLLAMA_TEMPERATURE', 0.7),
+    ],
+
 ];

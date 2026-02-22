@@ -1,9 +1,14 @@
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, usePage } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
-import { createApp, h } from 'vue';
+import { createApp, h, watch } from 'vue';
+import { createI18n } from 'vue-i18n';
 import '../css/app.css';
 import { initializeTheme } from './composables/useAppearance';
+import de from './locales/de.json';
+import en from './locales/en.json';
+import es from './locales/es.json';
+import tr from './locales/tr.json';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -15,9 +20,32 @@ createInertiaApp({
             import.meta.glob<DefineComponent>('./pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .mount(el);
+        const locale = (props.initialPage.props.locale as string) || 'en';
+        const i18n = createI18n({
+            legacy: false,
+            locale,
+            fallbackLocale: 'en',
+            messages: { en, de, tr, es },
+        });
+
+        // Watch the Inertia page locale prop reactively from inside the Vue tree
+        // so it stays in sync across all soft navigations.
+        const root = {
+            setup() {
+                const page = usePage();
+                watch(
+                    () => page.props?.locale as string | undefined,
+                    (newLocale) => {
+                        if (newLocale && i18n.global.locale.value !== newLocale) {
+                            i18n.global.locale.value = newLocale;
+                        }
+                    },
+                );
+            },
+            render: () => h(App, props),
+        };
+
+        createApp(root).use(plugin).use(i18n).mount(el);
     },
     progress: {
         color: '#4B5563',
