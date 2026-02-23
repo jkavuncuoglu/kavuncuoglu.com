@@ -23,6 +23,7 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import TechStackLogos from '@/components/ui/techstack/TechStackLogos.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
+import CircuitBackground from '@/components/CircuitBackground.vue';
 import { useAppearance } from '@/composables/useAppearance';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import InputError from '@/components/InputError.vue';
@@ -208,7 +209,10 @@ const projects = computed(() => [
         />
     </Head>
 
-    <div class="min-h-screen bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]">
+    <div class="relative min-h-screen bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]">
+
+        <!-- ─── Circuit board background texture ─────────────────────── -->
+        <CircuitBackground />
 
         <!-- ─── Navigation ───────────────────────────────────────────── -->
         <header
@@ -316,7 +320,7 @@ const projects = computed(() => [
         </header>
 
         <!-- ─── Page body: TOC sidebar + content ─────────────────────── -->
-        <div class="flex">
+        <div class="relative z-[1] flex">
 
             <!-- TOC Sidebar (lg+ only) -->
             <aside class="hidden w-56 shrink-0 lg:block">
@@ -526,7 +530,7 @@ const projects = computed(() => [
                 </section>
 
                 <!-- ── Skills & Technologies ──────────────────────────── -->
-                <section id="skills" class="bg-[#f9f9f8] px-6 py-24 dark:bg-[#0f0f0f]">
+                <section id="skills" class="bg-[#f9f9f8]/80 px-6 py-24 dark:bg-[#0f0f0f]/80">
                     <div class="mx-auto max-w-6xl">
                         <h2 class="mb-8 text-center text-3xl font-bold">
                             {{ t('welcome.skills_title') }}
@@ -667,7 +671,7 @@ const projects = computed(() => [
                 </section>
 
                 <!-- ── Featured Projects ──────────────────────────────── -->
-                <section id="projects" class="bg-[#f9f9f8] px-6 py-24 dark:bg-[#0f0f0f]">
+                <section id="projects" class="bg-[#f9f9f8]/80 px-6 py-24 dark:bg-[#0f0f0f]/80">
                     <div class="mx-auto max-w-6xl">
                         <h2 class="mb-12 text-center text-3xl font-bold">
                             {{ t('welcome.projects_title') }}
