@@ -5,6 +5,7 @@ import { Github, Linkedin, Mail } from 'lucide-vue-next';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
+import CircuitBackground from '@/components/CircuitBackground.vue';
 
 withDefaults(defineProps<{
     fullHeight?: boolean;
@@ -25,10 +26,11 @@ const contactUrl = computed(() => `/${currentLocale.value}/contact`);
 <template>
     <div
         :class="[
-            'bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]',
+            'relative bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]',
             fullHeight ? 'h-screen flex flex-col overflow-hidden' : 'min-h-screen',
         ]"
     >
+        <CircuitBackground />
         <!-- Navigation -->
         <header class="sticky top-0 z-50 backdrop-blur-md bg-[#FDFDFC]/80 dark:bg-[#0a0a0a]/80 border-b border-[#e3e3e0] dark:border-[#1f1f1f]">
             <nav class="mx-auto max-w-6xl px-6 py-4">

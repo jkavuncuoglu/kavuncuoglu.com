@@ -2,6 +2,7 @@
 import { usePage } from '@inertiajs/vue3';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import type { AppShellVariant } from '@/types';
+import CircuitBackground from '@/components/CircuitBackground.vue';
 
 type Props = {
     variant?: AppShellVariant;
@@ -13,10 +14,14 @@ const isOpen = usePage().props.sidebarOpen;
 </script>
 
 <template>
-    <div v-if="variant === 'header'" class="flex min-h-screen w-full flex-col">
+    <div v-if="variant === 'header'" class="relative flex min-h-screen w-full flex-col">
+        <CircuitBackground />
         <slot />
     </div>
-    <SidebarProvider v-else :default-open="isOpen">
-        <slot />
-    </SidebarProvider>
+    <div v-else class="relative min-h-screen">
+        <CircuitBackground />
+        <SidebarProvider :default-open="isOpen">
+            <slot />
+        </SidebarProvider>
+    </div>
 </template>
