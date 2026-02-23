@@ -1,29 +1,245 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import TechLogo from '@/components/ui/techstack/TechLogo.vue';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from '@/components/ui/dialog';
+
 interface TechItem {
     name: string;
     sub: string;
     img?: string;
+    kind?: string;
     compliance?: boolean;
+    detail: string;
+    highlights: string[];
 }
 
 defineProps<{ monochrome?: boolean }>();
 
+const selectedTech = ref<TechItem | null>(null);
+
 const stack: TechItem[] = [
-    { name: 'Laravel',        sub: 'v12',                img: '/images/brands/laravel.jpeg' },
-    { name: 'Vue.js',         sub: 'v3 · Inertia.js',    img: '/images/brands/vue-js.png' },
-    { name: 'PHP',            sub: '8.x' },
-    { name: 'AWS',            sub: 'Lambda · ECS · S3',   img: '/images/brands/amazon-web-services.png' },
-    { name: 'Amazon Connect', sub: 'Streams API · CX',    img: '/images/brands/amazon-connect.png' },
-    { name: 'Terraform',      sub: 'IaC',                 img: '/images/brands/terraform.svg' },
-    { name: 'Docker',         sub: 'Containers' },
-    { name: 'TypeScript',     sub: 'Type Safety' },
-    { name: 'GitHub Actions', sub: 'CI/CD · Automation' },
-    { name: 'Neuron AI',      sub: 'RAG · Embeddings' },
-    { name: 'Ollama',         sub: 'Local LLMs' },
-    { name: 'MySQL',          sub: 'PostgreSQL · Redis' },
-    { name: 'HIPAA',          sub: 'Healthcare Privacy',  compliance: true },
-    { name: 'HITRUST',        sub: 'CSF Framework',       compliance: true },
-    { name: 'SOC 2',          sub: 'Type II',             compliance: true },
+    // ── Frontend ──────────────────────────────────────────────────
+    {
+        name: 'Laravel',
+        sub: 'v12',
+        img: '/images/brands/laravel.jpeg',
+        detail: 'Primary PHP framework used across all major projects. Leveraged Eloquent ORM, job queues, broadcasting, and Artisan CLI. Led a zero-downtime migration from Laravel 6 to v12 at Pleio.',
+        highlights: ['Upgraded v6 → v12 in production', 'Eloquent ORM & query optimisation', 'Job queues, events & broadcasting', 'Custom Artisan commands & seeders', 'API resources & form validation'],
+    },
+    {
+        name: 'Vue.js',
+        sub: 'v3 · Inertia.js',
+        img: '/images/brands/vue-js.png',
+        detail: 'Primary frontend framework. Builds component-driven SPAs using the Composition API and TypeScript. Migrated large production codebases from Vue 2 to Vue 3.',
+        highlights: ['Migrated Vue 2 → Vue 3 in production', 'Composition API & <script setup>', 'Inertia.js SPA without a separate API', 'Custom composables & reactive patterns', 'shadcn/vue component library'],
+    },
+    {
+        name: 'PHP',
+        sub: '8.x',
+        kind: 'php',
+        detail: 'Server-side language used across enterprise healthcare and e-commerce platforms. Focus on clean OOP, SOLID principles, and leveraging PHP 8.x features for type-safe code.',
+        highlights: ['PHP 8.x: enums, named args, fibers', 'SOLID principles & design patterns', 'PSR standards & strict typing', 'Composer ecosystem management', 'Dependency injection & service containers'],
+    },
+    {
+        name: 'TypeScript',
+        sub: 'Type Safety',
+        kind: 'typescript',
+        detail: 'Applied across all modern Vue.js frontends and Node.js services. Enforces type safety, improves IDE support, and catches bugs at compile time rather than runtime.',
+        highlights: ['Full type coverage on Vue + Inertia apps', 'Custom type definitions & generics', 'Strict mode configuration', 'Interface-driven component props', 'Typed API response contracts'],
+    },
+    {
+        name: 'Tailwind CSS',
+        sub: 'Utility-First CSS',
+        kind: 'tailwind',
+        detail: 'Utility-first CSS framework for all recent projects. Enables rapid, consistent UI development with custom design tokens, dark mode, and responsive layouts.',
+        highlights: ['Custom design system via CSS variables', 'Dark mode & responsive design', 'shadcn/vue component integration', 'Consistent spacing & typography scales', 'Animation & transition utilities'],
+    },
+    {
+        name: 'Inertia.js',
+        sub: 'SPA Routing',
+        kind: 'inertia',
+        detail: 'The bridge between Laravel backends and Vue 3 frontends — no separate API needed. Handles SPA routing, shared data, form submissions, and authentication flows seamlessly.',
+        highlights: ['Server-side routing with SPA feel', 'Shared data via HandleInertiaRequests', 'Form handling & flash messages', 'Ziggy route helpers integration', 'SSR-ready architecture'],
+    },
+    {
+        name: 'React',
+        sub: 'UI Library',
+        kind: 'react',
+        detail: 'Used for Amazon Connect CCP (Contact Control Panel) custom UI components. Experienced with hooks, context, and building embeddable widgets integrated into broader Laravel apps.',
+        highlights: ['Amazon Connect CCP integration', 'Custom hook patterns', 'Functional components with hooks', 'Context API for state sharing', 'Embeddable widget architecture'],
+    },
+    {
+        name: 'Node.js',
+        sub: 'JS Runtime',
+        kind: 'nodejs',
+        detail: 'Used for AWS Lambda functions, build tooling (Vite), and real-time processing pipelines. Experience with serverless functions and event-driven backend architectures.',
+        highlights: ['AWS Lambda serverless functions', 'Vite build tooling & HMR', 'Event-driven processing pipelines', 'npm/bun package ecosystem', 'Streaming response handling'],
+    },
+    {
+        name: 'WordPress',
+        sub: 'CMS',
+        kind: 'wordpress',
+        detail: 'Built custom plugins and CLI tools for multi-site SEO automation at 360 Quote. Deep knowledge of the WP hook system, REST API, and bulk content management workflows.',
+        highlights: ['Custom plugins for bulk SEO operations', 'WP-CLI tooling for automation', 'Multi-site management', 'REST API & custom endpoints', 'Metadata & URL structure optimisation'],
+    },
+    {
+        name: 'REST APIs',
+        sub: 'Web Services',
+        kind: 'rest',
+        detail: 'Designs and consumes RESTful APIs using HTTP standards. Focus on clear resource modelling, consistent error responses, versioning, and authentication security.',
+        highlights: ['Laravel API Resources & transformers', 'JWT & Sanctum authentication', 'API versioning strategies', 'Rate limiting & throttling', 'OpenAPI / Swagger documentation'],
+    },
+    // ── Cloud & DevOps ────────────────────────────────────────────
+    {
+        name: 'AWS',
+        sub: 'Lambda · ECS · S3',
+        img: '/images/brands/amazon-web-services.png',
+        detail: 'Managed the full AWS cloud environment at Pleio — optimising cost, security, and reliability across EC2, ECS, S3, Lambda, CloudWatch, IAM, Redshift, and ElastiCache.',
+        highlights: ['EC2 & ECS container orchestration', 'S3 storage with lifecycle policies', 'Lambda serverless functions', 'CloudWatch monitoring & alerting', 'Cost optimisation & reserved capacity'],
+    },
+    {
+        name: 'Amazon Connect',
+        sub: 'Streams API · CX',
+        img: '/images/brands/amazon-connect.png',
+        detail: 'Built deep Amazon Connect integrations including a custom CCP, real-time call analytics via Lambda, and contact flow architecture powering a HIPAA-compliant patient contact system.',
+        highlights: ['Custom CCP with Amazon Connect Streams', 'Real-time call analytics via Lambda', 'Contact flow design & management', 'Agent event processing & reporting', 'HIPAA-compliant call routing'],
+    },
+    {
+        name: 'Terraform',
+        sub: 'IaC',
+        img: '/images/brands/terraform.svg',
+        detail: 'Infrastructure as Code for AWS environments. Manages reproducible, version-controlled infrastructure definitions that maintain environment parity across dev, staging, and production.',
+        highlights: ['AWS resource provisioning', 'Module-based reusable infrastructure', 'Environment parity (dev/staging/prod)', 'Remote state management', 'IAM policy & role automation'],
+    },
+    {
+        name: 'Docker',
+        sub: 'Containers',
+        kind: 'docker',
+        detail: 'Containerises development environments and production workloads. Standardised local dev setups across teams and manages ECS task definitions for container deployments on AWS.',
+        highlights: ['Standardised local dev environments', 'ECS task definition management', 'Docker Compose for local stacks', 'Multi-stage build optimisation', 'Container security hardening'],
+    },
+    {
+        name: 'GitHub Actions',
+        sub: 'CI/CD · Automation',
+        kind: 'githubactions',
+        detail: 'CI/CD pipelines for automated testing, SAST security scanning, Docker builds, and deployment workflows. Enables consistent, gated releases across all environments.',
+        highlights: ['Automated test & lint pipelines', 'SAST & dependency scanning', 'Docker build & push to ECR', 'Environment-based deployment gates', 'Slack notification integrations'],
+    },
+    // ── AI / ML ───────────────────────────────────────────────────
+    {
+        name: 'Neuron AI',
+        sub: 'RAG · Embeddings',
+        kind: 'neuronai',
+        detail: 'Integrated NeuronAI to build a RAG-based knowledge base assistant. Manages vector embeddings, document parsing, and contextual AI responses grounded in uploaded knowledge documents.',
+        highlights: ['RAG pipeline with vector embeddings', 'Ollama + OpenAI provider support', 'Document ingestion & chunking', 'Context-aware AI responses', 'Custom ChatAssistant implementation'],
+    },
+    {
+        name: 'Ollama',
+        sub: 'Local LLMs',
+        kind: 'ollama',
+        detail: 'Runs local LLMs for privacy-first AI features without sending data to third-party APIs. Evaluated for on-premise healthcare AI use cases where PHI data cannot leave the network.',
+        highlights: ['Local LLM inference (no cloud API)', 'Privacy-first AI for healthcare data', 'Multiple model support (Llama, Mistral)', 'NeuronAI framework integration', 'On-premise deployment ready'],
+    },
+    // ── Databases & Infrastructure ────────────────────────────────
+    {
+        name: 'MySQL',
+        sub: 'Relational DB',
+        kind: 'mysql',
+        detail: 'Primary OLTP database across most projects. Focus on schema design, complex query optimisation, indexing strategies, and Eloquent ORM integration for maintainable data layers.',
+        highlights: ['Complex query optimisation & indexing', 'Eloquent ORM with eager loading', 'Database migrations & rollbacks', 'Multi-tenant schema design', 'Replication & backup strategies'],
+    },
+    {
+        name: 'PostgreSQL',
+        sub: 'Advanced RDBMS',
+        kind: 'postgresql',
+        detail: 'Used for advanced relational workloads requiring JSONB columns, full-text search, and window functions. Chosen when MySQL\'s feature set is insufficient for analytical queries.',
+        highlights: ['JSONB columns for flexible schemas', 'Full-text search capabilities', 'Window functions & CTEs', 'Advanced constraint patterns', 'Connection pooling strategies'],
+    },
+    {
+        name: 'Redis',
+        sub: 'Cache · ElastiCache',
+        kind: 'redis',
+        detail: 'Used for session caching, queue backends, and real-time data storage with Laravel\'s cache and queue drivers. Managed as AWS ElastiCache for scalable, managed Redis clusters.',
+        highlights: ['Laravel cache & session driver', 'Queue backend for job processing', 'AWS ElastiCache provisioning', 'Cache invalidation strategies', 'Real-time pub/sub patterns'],
+    },
+    {
+        name: 'Redshift',
+        sub: 'Data Warehouse',
+        kind: 'redshift',
+        detail: 'AWS Redshift used for analytics and reporting at scale. Analysed call centre performance metrics and operational KPIs by building ETL pipelines from production RDS into Redshift.',
+        highlights: ['Call centre analytics & KPI reporting', 'ETL pipelines from RDS → Redshift', 'Columnar storage optimisation', 'Complex aggregation queries', 'BI dashboard data sourcing'],
+    },
+    {
+        name: 'Nginx',
+        sub: 'Web Server · Proxy',
+        kind: 'nginx',
+        detail: 'Configured as reverse proxy, load balancer, and static file server for Laravel applications. Handles SSL termination, request routing, and rate limiting at the infrastructure edge.',
+        highlights: ['Reverse proxy for Laravel apps', 'SSL/TLS termination', 'Static file caching & gzip', 'Rate limiting & request filtering', 'WebSocket proxy configuration'],
+    },
+    // ── Security & Compliance ─────────────────────────────────────
+    {
+        name: 'HIPAA',
+        sub: 'Healthcare Privacy',
+        compliance: true,
+        detail: 'Maintained HIPAA compliance across healthcare applications at Pleio. Responsible for PHI data handling controls, access logging, encryption standards, and breach risk procedures.',
+        highlights: ['PHI data handling & encryption at rest', 'Access logging & audit trails', 'Minimum necessary data principles', 'Business Associate Agreements (BAA)', 'Breach risk assessment processes'],
+    },
+    {
+        name: 'HITRUST',
+        sub: 'CSF Framework',
+        compliance: true,
+        detail: 'Applied HITRUST CSF controls for enterprise healthcare compliance. Contributed to certification evidence collection, security policy documentation, and continuous control monitoring.',
+        highlights: ['CSF control implementation', 'Risk management framework', 'Security policy documentation', 'Third-party vendor assessment', 'Continuous compliance monitoring'],
+    },
+    {
+        name: 'SOC 2',
+        sub: 'Type II',
+        compliance: true,
+        detail: 'Supported SOC 2 Type II compliance by enforcing security controls, managing access policies, and contributing to the evidence collection process for trust service criteria.',
+        highlights: ['Trust Service Criteria enforcement', 'Access control & change management', 'Encryption in transit & at rest', 'Incident response procedures', 'Continuous monitoring controls'],
+    },
+    {
+        name: 'OWASP / SAST',
+        sub: 'Application Security',
+        kind: 'owasp',
+        detail: 'Applied OWASP Top 10 mitigations during code reviews and automated SAST scanning integrated into CI/CD pipelines. Proactively identifies vulnerabilities before they reach production.',
+        highlights: ['OWASP Top 10 mitigation patterns', 'SAST pipeline integration (CI/CD)', 'SQL injection & XSS prevention', 'Dependency vulnerability scanning', 'Secure code review practices'],
+    },
+    {
+        name: 'AWS IAM',
+        sub: 'Identity & Access',
+        kind: 'iam',
+        detail: 'Designed least-privilege IAM policies across AWS environments. Manages roles, policies, and service-to-service permissions ensuring minimal attack surface across all cloud resources.',
+        highlights: ['Least-privilege policy design', 'Role-based access for ECS & Lambda', 'Cross-account trust policies', 'MFA enforcement for IAM users', 'Service Control Policies (SCP)'],
+    },
+    // ── Tools & Methods ───────────────────────────────────────────
+    {
+        name: 'Git',
+        sub: 'Version Control',
+        kind: 'git',
+        detail: 'Uses Git for all version control with conventional commits, feature branching, and PR-based workflows. Enforces quality gates via pre-commit hooks in team environments.',
+        highlights: ['Feature branch & GitFlow workflows', 'Conventional commit standards', 'Interactive rebase & cherry-pick', 'Code review via Pull Requests', 'Git hooks for quality gates'],
+    },
+    {
+        name: 'PHPUnit',
+        sub: 'Testing Framework',
+        kind: 'phpunit',
+        detail: 'Writes unit and feature tests for Laravel applications. Focus on meaningful test coverage for critical business logic, database interactions, and API endpoints.',
+        highlights: ['Unit & feature test suites', 'Mock & stub patterns', 'Database factory testing', 'API endpoint test coverage', 'Test-driven bug fixing'],
+    },
+    {
+        name: 'Agile / Scrum',
+        sub: 'Methodology',
+        kind: 'agile',
+        detail: 'Led sprint planning and retrospectives at Pleio while managing an offshore development team. Translates business requirements into clear sprint goals with measurable acceptance criteria.',
+        highlights: ['Sprint planning & retrospectives', 'Offshore team leadership', 'Stakeholder expectation management', 'Backlog refinement & estimation', 'Velocity tracking & forecasting'],
+    },
 ];
 </script>
 
@@ -32,139 +248,51 @@ const stack: TechItem[] = [
         <div
             v-for="item in stack"
             :key="item.name"
-            class="flex flex-col items-center gap-3 rounded-xl border border-[#e3e3e0] bg-white p-5 transition-all hover:-translate-y-1 hover:border-[#c9c9c6] dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
+            class="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-[#e3e3e0] bg-white p-5 transition-all hover:-translate-y-1 hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
+            @click="selectedTech = item"
         >
-            <!-- Logo container — neutral bg so all images render cleanly in light & dark -->
             <div class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
-
-                <!-- Compliance badge -->
-                <template v-if="item.compliance">
-                    <svg viewBox="0 0 24 24" class="h-8 w-8 text-[#1b1b18] dark:text-[#EDEDEC]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L3 7V12C3 16.97 7.16 21.57 12 22C16.84 21.57 21 16.97 21 12V7L12 2Z" fill="currentColor" opacity="0.12"/>
-                        <path d="M12 2L3 7V12C3 16.97 7.16 21.57 12 22C16.84 21.57 21 16.97 21 12V7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                        <polyline points="8,12.5 10.5,15 16,9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    </svg>
-                </template>
-
-                <!-- Image-based logos — rendered naturally inside the neutral container -->
-                <img
-                    v-else-if="item.img"
-                    :src="item.img"
-                    :alt="item.name"
-                    class="h-10 w-10 object-contain"
-                />
-
-                <!-- Inline SVG logos -->
-                <template v-else>
-
-                    <!-- PHP ── oval pill badge -->
-                    <svg v-if="item.name === 'PHP'" viewBox="0 0 100 50" class="h-8 w-14" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="50" cy="25" rx="48" ry="23" fill="#777BB4"/>
-                        <text x="50" y="33" text-anchor="middle" fill="white" font-weight="bold" font-size="22" font-family="monospace" letter-spacing="-0.5">php</text>
-                    </svg>
-
-                    <!-- Docker ── container stack + whale -->
-                    <svg v-else-if="item.name === 'Docker'" viewBox="0 0 80 65" class="h-11 w-14" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="30" y="8"  width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="16" y="19" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="30" y="19" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="2"  y="30" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="16" y="30" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="30" y="30" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <rect x="44" y="30" width="12" height="9" rx="1.5" fill="#2496ED"/>
-                        <path d="M2 43 C 22 60, 52 57, 70 44" stroke="#2496ED" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        <path d="M68 42 Q78 33 72 25" stroke="#2496ED" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                        <circle cx="70" cy="37" r="2.5" fill="#2496ED"/>
-                    </svg>
-
-                    <!-- TypeScript ── official blue square + TS -->
-                    <svg v-else-if="item.name === 'TypeScript'" viewBox="0 0 100 100" class="h-11 w-11" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100" height="100" rx="10" fill="#3178C6"/>
-                        <text x="50" y="68" text-anchor="middle" fill="white" font-weight="bold" font-size="46" font-family="Arial, sans-serif">TS</text>
-                    </svg>
-
-                    <!-- GitHub Actions ── branching workflow (start → 2 parallel jobs → done) -->
-                    <svg v-else-if="item.name === 'GitHub Actions'" viewBox="0 0 100 100" class="h-11 w-11 text-[#24292F] dark:text-[#EDEDEC]" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Edges -->
-                        <line x1="50" y1="22" x2="28"  y2="48" stroke="currentColor" stroke-width="2.2" opacity="0.4"/>
-                        <line x1="50" y1="22" x2="72"  y2="48" stroke="currentColor" stroke-width="2.2" opacity="0.4"/>
-                        <line x1="28" y1="62" x2="50"  y2="82" stroke="currentColor" stroke-width="2.2" opacity="0.4"/>
-                        <line x1="72" y1="62" x2="50"  y2="82" stroke="currentColor" stroke-width="2.2" opacity="0.4"/>
-                        <!-- Nodes -->
-                        <circle cx="50" cy="14" r="9" fill="currentColor"/>
-                        <circle cx="28" cy="55" r="9" fill="currentColor"/>
-                        <circle cx="72" cy="55" r="9" fill="currentColor"/>
-                        <circle cx="50" cy="88" r="9" fill="currentColor"/>
-                        <!-- Check marks (always white for contrast) -->
-                        <path d="M44.5,14 L48,17.5 L55.5,9.5"  stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M22.5,55 L26,58.5 L33.5,50.5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M66.5,55 L70,58.5 L77.5,50.5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M44.5,88 L48,91.5 L55.5,83.5" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-
-                    <!-- Neuron AI ── 3-layer neural network -->
-                    <svg v-else-if="item.name === 'Neuron AI'" viewBox="0 0 100 100" class="h-11 w-11" xmlns="http://www.w3.org/2000/svg">
-                        <line x1="21" y1="28" x2="43" y2="20" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="28" x2="43" y2="43" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="50" x2="43" y2="20" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="50" x2="43" y2="43" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="50" x2="43" y2="65" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="72" x2="43" y2="43" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="72" x2="43" y2="65" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="21" y1="72" x2="43" y2="80" stroke="#10B981" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="20" x2="79" y2="38" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="43" x2="79" y2="38" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="43" x2="79" y2="63" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="65" x2="79" y2="38" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="65" x2="79" y2="63" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <line x1="57" y1="80" x2="79" y2="63" stroke="#34D399" stroke-width="1.3" opacity="0.5"/>
-                        <circle cx="14" cy="28" r="7" fill="#10B981"/>
-                        <circle cx="14" cy="50" r="7" fill="#10B981"/>
-                        <circle cx="14" cy="72" r="7" fill="#10B981"/>
-                        <circle cx="50" cy="20" r="7" fill="#34D399"/>
-                        <circle cx="50" cy="43" r="7" fill="#34D399"/>
-                        <circle cx="50" cy="65" r="7" fill="#34D399"/>
-                        <circle cx="50" cy="80" r="7" fill="#34D399"/>
-                        <circle cx="86" cy="38" r="7" fill="#6EE7B7"/>
-                        <circle cx="86" cy="63" r="7" fill="#6EE7B7"/>
-                    </svg>
-
-                    <!-- Ollama ── minimal llama face -->
-                    <svg v-else-if="item.name === 'Ollama'" viewBox="0 0 100 100" class="h-11 w-11" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="50" cy="78" rx="22" ry="13" fill="#6366F1"/>
-                        <circle  cx="50" cy="46" r="22" fill="#6366F1"/>
-                        <ellipse cx="34" cy="26" rx="5.5" ry="10" fill="#6366F1"/>
-                        <ellipse cx="34" cy="26" rx="3"   ry="7"  fill="#818CF8"/>
-                        <ellipse cx="66" cy="26" rx="5.5" ry="10" fill="#6366F1"/>
-                        <ellipse cx="66" cy="26" rx="3"   ry="7"  fill="#818CF8"/>
-                        <ellipse cx="42" cy="42" rx="4.5" ry="5"  fill="white"/>
-                        <ellipse cx="58" cy="42" rx="4.5" ry="5"  fill="white"/>
-                        <circle  cx="43" cy="43" r="2.5" fill="#1E1B4B"/>
-                        <circle  cx="59" cy="43" r="2.5" fill="#1E1B4B"/>
-                        <ellipse cx="50" cy="55" rx="9"   ry="6"  fill="#818CF8"/>
-                    </svg>
-
-                    <!-- MySQL ── database cylinder -->
-                    <svg v-else-if="item.name === 'MySQL'" viewBox="0 0 100 100" class="h-11 w-11" xmlns="http://www.w3.org/2000/svg">
-                        <ellipse cx="50" cy="78" rx="35" ry="12" fill="#2D5F8A"/>
-                        <rect x="15" y="27" width="70" height="51" fill="#4479A1"/>
-                        <ellipse cx="50" cy="44" rx="35" ry="10" fill="#3B75AA" opacity="0.6"/>
-                        <ellipse cx="50" cy="60" rx="35" ry="10" fill="#3B75AA" opacity="0.35"/>
-                        <ellipse cx="50" cy="27" rx="35" ry="12" fill="#5B92BE"/>
-                        <ellipse cx="44" cy="25" rx="16"  ry="6"  fill="#7AB0D4" opacity="0.4"/>
-                    </svg>
-
-                </template>
+                <TechLogo :kind="item.kind" :img="item.img" :compliance="item.compliance" :name="item.name" />
             </div>
-
-            <!-- Tech name -->
-            <span class="text-center text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
-                {{ item.name }}
-            </span>
-            <!-- Sub-label -->
-            <span v-if="item.sub" class="text-center text-xs text-[#706f6c] dark:text-[#A1A09A]">
-                {{ item.sub }}
-            </span>
+            <span class="text-center text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">{{ item.name }}</span>
+            <span v-if="item.sub" class="text-center text-xs text-[#706f6c] dark:text-[#A1A09A]">{{ item.sub }}</span>
         </div>
     </div>
+
+    <!-- Tech detail dialog -->
+    <Dialog :open="!!selectedTech" @update:open="(v) => { if (!v) selectedTech = null }">
+        <DialogContent class="max-w-md">
+            <DialogHeader>
+                <div class="mb-4 flex items-center gap-4">
+                    <div class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
+                        <TechLogo
+                            :kind="selectedTech?.kind"
+                            :img="selectedTech?.img"
+                            :compliance="selectedTech?.compliance"
+                            :name="selectedTech?.name"
+                        />
+                    </div>
+                    <div>
+                        <DialogTitle class="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
+                            {{ selectedTech?.name }}
+                        </DialogTitle>
+                        <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">{{ selectedTech?.sub }}</p>
+                    </div>
+                </div>
+                <DialogDescription class="text-left text-sm leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
+                    {{ selectedTech?.detail }}
+                </DialogDescription>
+            </DialogHeader>
+
+            <div class="mt-2 flex flex-wrap gap-2">
+                <span
+                    v-for="h in selectedTech?.highlights"
+                    :key="h"
+                    class="rounded-full bg-[#f4f4f2] px-3 py-1 text-xs font-medium text-[#1b1b18] dark:bg-[#1f1f1f] dark:text-[#EDEDEC]"
+                >
+                    {{ h }}
+                </span>
+            </div>
+        </DialogContent>
+    </Dialog>
 </template>

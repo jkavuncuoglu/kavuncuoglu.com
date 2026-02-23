@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
@@ -33,10 +34,8 @@ class SetLocale
 
         app()->setLocale($locale);
 
-        $response = $next($request);
+        Cookie::queue('locale', $locale, 60 * 24 * 365, '/', null, false, false);
 
-        return $response->withCookie(
-            cookie('locale', $locale, 60 * 24 * 365, '/', null, false, false)
-        );
+        return $next($request);
     }
 }

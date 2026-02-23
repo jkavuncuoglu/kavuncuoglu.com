@@ -23,11 +23,12 @@ import {
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import TechStackLogos from '@/components/ui/techstack/TechStackLogos.vue';
-import SkillsGrid from '@/components/ui/techstack/SkillsGrid.vue';
+import TechLogo from '@/components/ui/techstack/TechLogo.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import CircuitBackground from '@/components/CircuitBackground.vue';
 import { useAppearance } from '@/composables/useAppearance';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import InputError from '@/components/InputError.vue';
 
 interface MediumPost {
@@ -73,6 +74,9 @@ const contactForm = useForm({ name: '', email: '', message: '' });
 const submitContact = () => {
     contactForm.post(contactUrl.value, { preserveScroll: true });
 };
+
+// Skill detail dialog
+const selectedSkill = ref<SkillCategory | null>(null);
 
 // Scroll / visibility
 const isVisible = ref(false);
@@ -136,66 +140,92 @@ onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
 });
 
+interface SkillIconItem {
+    name: string;
+    kind?: string;
+    img?: string;
+    compliance?: boolean;
+}
+
+interface SkillCategory {
+    category: string;
+    desc: string;
+    icon: object;
+    items: SkillIconItem[];
+}
+
 const skills = computed(() => [
     {
         category: t('welcome.skill_frontend'),
+        desc: t('welcome.skill_frontend_desc'),
         icon: Code2,
         items: [
-            'Vue.js 3',
-            'TypeScript',
-            'Tailwind CSS',
-            'Inertia.js',
-            'React',
-        ],
+            { name: 'Vue.js 3',     img: '/images/brands/vue-js.png' },
+            { name: 'TypeScript',   kind: 'typescript' },
+            { name: 'Tailwind CSS', kind: 'tailwind' },
+            { name: 'Inertia.js',   kind: 'inertia' },
+            { name: 'React',        kind: 'react' },
+        ] as SkillIconItem[],
     },
     {
         category: t('welcome.skill_backend'),
+        desc: t('welcome.skill_backend_desc'),
         icon: Server,
-        items: ['Laravel 12', 'PHP 8.x', 'Node.js', 'REST APIs', 'WordPress'],
+        items: [
+            { name: 'Laravel 12',  img: '/images/brands/laravel.jpeg' },
+            { name: 'PHP 8.x',     kind: 'php' },
+            { name: 'Node.js',     kind: 'nodejs' },
+            { name: 'REST APIs',   kind: 'rest' },
+            { name: 'WordPress',   kind: 'wordpress' },
+        ] as SkillIconItem[],
     },
     {
         category: t('welcome.skill_devops'),
+        desc: t('welcome.skill_devops_desc'),
         icon: Cloud,
         items: [
-            'AWS Lambda',
-            'Amazon Connect',
-            'EC2 / ECS / S3',
-            'Docker',
-            'CI/CD',
-        ],
+            { name: 'AWS',            img: '/images/brands/amazon-web-services.png' },
+            { name: 'Amazon Connect', img: '/images/brands/amazon-connect.png' },
+            { name: 'Terraform',      img: '/images/brands/terraform.svg' },
+            { name: 'Docker',         kind: 'docker' },
+            { name: 'GitHub Actions', kind: 'githubactions' },
+        ] as SkillIconItem[],
     },
     {
         category: t('welcome.skill_devsecops'),
+        desc: t('welcome.skill_devsecops_desc'),
         icon: Shield,
         items: [
-            'HIPAA / HITRUST',
-            'SOC 2',
-            'OWASP / SAST',
-            'AWS IAM',
-            'Laravel Security',
-        ],
+            { name: 'HIPAA',         compliance: true },
+            { name: 'HITRUST',       compliance: true },
+            { name: 'SOC 2',         compliance: true },
+            { name: 'OWASP / SAST',  kind: 'owasp' },
+            { name: 'AWS IAM',       kind: 'iam' },
+        ] as SkillIconItem[],
     },
     {
         category: t('welcome.skill_infrastructure'),
+        desc: t('welcome.skill_infrastructure_desc'),
         icon: Database,
         items: [
-            'MySQL',
-            'PostgreSQL',
-            'Redis / ElastiCache',
-            'Redshift',
-            'Nginx',
-        ],
+            { name: 'MySQL',      kind: 'mysql' },
+            { name: 'PostgreSQL', kind: 'postgresql' },
+            { name: 'Redis',      kind: 'redis' },
+            { name: 'Redshift',   kind: 'redshift' },
+            { name: 'Nginx',      kind: 'nginx' },
+        ] as SkillIconItem[],
     },
     {
         category: t('welcome.skill_tools'),
+        desc: t('welcome.skill_tools_desc'),
         icon: Terminal,
         items: [
-            'Git',
-            'GitHub Actions',
-            'Composer',
-            'PHPUnit',
-            'Agile / Scrum',
-        ],
+            { name: 'Git',           kind: 'git' },
+            { name: 'GitHub Actions', kind: 'githubactions' },
+            { name: 'PHPUnit',       kind: 'phpunit' },
+            { name: 'Agile / Scrum', kind: 'agile' },
+            { name: 'Neuron AI',     kind: 'neuronai' },
+        ] as SkillIconItem[],
     },
 ]);
 
@@ -716,16 +746,17 @@ const projects = computed(() => [
                         <!-- Tab 1: Skills grid -->
                         <div
                             v-show="activeSkillTab === 'skills'"
-                            class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                            class="grid gap-6 sm:grid-cols-2"
                         >
                             <div
                                 v-for="skill in skills"
                                 :key="skill.category"
-                                class="rounded-xl border border-[#e3e3e0] bg-white p-6 shadow-sm transition-colors hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
+                                class="cursor-pointer rounded-xl border border-[#e3e3e0] bg-white p-6 shadow-sm transition-all hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
+                                @click="selectedSkill = skill as SkillCategory"
                             >
-                                <div class="mb-4 flex items-center gap-3">
+                                <div class="mb-3 flex items-center gap-3">
                                     <div
-                                        class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f4f4f2] dark:bg-[#1f1f1f]"
+                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#f4f4f2] dark:bg-[#1f1f1f]"
                                     >
                                         <component
                                             :is="skill.icon"
@@ -736,14 +767,23 @@ const projects = computed(() => [
                                         {{ skill.category }}
                                     </h3>
                                 </div>
+                                <p class="mb-4 text-xs leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
+                                    {{ skill.desc }}
+                                </p>
                                 <div class="flex flex-wrap gap-2">
-                                    <span
+                                    <div
                                         v-for="item in skill.items"
-                                        :key="item"
-                                        class="rounded-full bg-[#f4f4f2] px-3 py-1 text-sm text-[#706f6c] dark:bg-[#1f1f1f] dark:text-[#A1A09A]"
+                                        :key="item.name"
+                                        :title="item.name"
+                                        class="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-[#f4f4f2] dark:bg-[#1f1f1f]"
                                     >
-                                        {{ item }}
-                                    </span>
+                                        <TechLogo
+                                            :kind="item.kind"
+                                            :img="item.img"
+                                            :compliance="item.compliance"
+                                            :name="item.name"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -756,6 +796,49 @@ const projects = computed(() => [
                             <TechStackLogos />
                         </div>
                     </div>
+
+                    <!-- Skill category detail dialog -->
+                    <Dialog :open="!!selectedSkill" @update:open="(v) => { if (!v) selectedSkill = null }">
+                        <DialogContent class="max-w-lg">
+                            <DialogHeader>
+                                <div class="mb-3 flex items-center gap-4">
+                                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#f4f4f2] dark:bg-[#1f1f1f]">
+                                        <component
+                                            :is="selectedSkill?.icon"
+                                            class="h-6 w-6 text-[#1b1b18] dark:text-[#EDEDEC]"
+                                        />
+                                    </div>
+                                    <DialogTitle class="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
+                                        {{ selectedSkill?.category }}
+                                    </DialogTitle>
+                                </div>
+                                <DialogDescription class="text-left text-sm leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
+                                    {{ selectedSkill?.desc }}
+                                </DialogDescription>
+                            </DialogHeader>
+
+                            <div v-if="selectedSkill?.items?.length" class="mt-2">
+                                <p class="mb-3 text-xs font-medium uppercase tracking-wider text-[#706f6c] dark:text-[#A1A09A]">Technologies</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <div
+                                        v-for="item in selectedSkill.items"
+                                        :key="item.name"
+                                        class="flex flex-col items-center gap-1.5"
+                                    >
+                                        <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-[#f4f4f2] dark:bg-[#1f1f1f]">
+                                            <TechLogo
+                                                :kind="item.kind"
+                                                :img="item.img"
+                                                :compliance="item.compliance"
+                                                :name="item.name"
+                                            />
+                                        </div>
+                                        <span class="max-w-[52px] text-center text-[10px] leading-tight text-[#706f6c] dark:text-[#A1A09A]">{{ item.name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </section>
 
                 <!-- ── Experience ─────────────────────────────────────── -->
