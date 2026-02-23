@@ -3,7 +3,8 @@
     "home": "Home",
     "chat": "Chat",
     "login": "Login",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "contact": "Contact"
   },
   "footer": {
     "rights": "© {year} Jeremy C Kavuncuoglu. All rights reserved."
@@ -11,7 +12,7 @@
   "welcome": {
     "badge": "Available for new opportunities",
     "name": "Jeremy C Kavuncuoglu",
-    "title": "Enterprise Application & Cloud Solutions Architect",
+    "title": "Enterprise Application & Cloud Solutions Engineer",
     "hero_body": "I design and deliver secure, scalable Laravel applications and AWS cloud infrastructure for enterprise teams. Specializing in Amazon Connect flow architecture, serverless systems, and DevSecOps automation that power reliable, high-performance customer experiences.",
     "expertise": "Core Expertise:",
     "about_title": "About Me",
@@ -27,7 +28,7 @@
     "skill_frontend": "Frontend",
     "skill_backend": "Backend",
     "skill_devops": "DevOps & Cloud",
-    "skill_devsecops": "DevSecOps",
+    "skill_devsecops": "Security & Compliance",
     "skill_infrastructure": "Infrastructure",
     "skill_tools": "Tools",
     "projects_title": "Featured Projects",
@@ -39,7 +40,36 @@
     "project3_desc": "Created an automated security scanning pipeline integrating SAST, DAST, and dependency checking into the development workflow.",
     "contact_title": "Let's Work Together",
     "contact_body": "I'm always interested in new opportunities and collaborations. Whether you have a project in mind or just want to connect, feel free to reach out.",
-    "contact_cta": "Get in Touch"
+    "contact_cta": "Get in Touch",
+    "toc_title": "On this page",
+    "hero_headline": "Hi, I'm Jeremy Kavuncuoglu",
+    "hero_cta": "Get in Touch",
+    "hero_secondary_cta": "View Projects",
+    "skills_tab_skills": "Skills",
+    "skills_tab_tech": "Technologies",
+    "experience_title": "Experience",
+    "exp1_period": "2023–Present",
+    "exp1_role": "Senior PHP Developer",
+    "exp1_company": "Pleio",
+    "exp1_desc": "Led the upgrade of the core application from Laravel 6 / Vue 2 / Bootstrap to Laravel 12 / Vue 3 / TailwindCSS. Managed the AWS cloud environment (EC2, RDS, ECS, S3, Lambda, CloudWatch, IAM, Redshift, ElastiCache) for security and cost efficiency. Built AI infrastructure for real-time phone system analytics via serverless Lambda and optimised the patient contact system achieving a 40% performance improvement. Led offshore development team defining sprint goals and stakeholder expectations.",
+    "exp2_period": "2021–2023",
+    "exp2_role": "Full Stack Engineer",
+    "exp2_company": "360 Quote, LLC",
+    "exp2_desc": "Architected a multi-site lead management system with a custom real-time bidding algorithm distributing leads by demand, preferences and quality, significantly boosting conversion rates. Built custom WordPress plugins and CLI tools automating metadata generation, URL structure improvements and bulk content updates for large-scale SEO across multiple sites.",
+    "exp3_period": "2020–2021",
+    "exp3_role": "Full Stack Developer",
+    "exp3_company": "Skar Audio",
+    "exp3_desc": "Developed a PHP-based omni-channel operations management platform synchronising real-time inventory, orders and customer data across Amazon, eBay, Shopify and proprietary storefronts. Designed a modular, scalable backend with optimised database queries and built intuitive dashboards to automate order assignment, shipping labels and stock reconciliation.",
+    "exp4_period": "2018–2020",
+    "exp4_role": "Senior Web Developer",
+    "exp4_company": "Global Widget",
+    "exp4_desc": "Built a web-based Laravel product management system with an intuitive UI for efficient inventory tracking and organisation. Introduced Agile methodologies to the development team and established a standardised local Docker development environment, significantly improving team consistency and productivity.",
+    "project_github": "GitHub",
+    "project_demo": "Live Demo",
+    "blog_title": "Blog",
+    "blog_view_all": "View all on Medium",
+    "blog_empty": "No posts available yet. Check back soon.",
+    "blog_read": "Read on Medium"
   },
   "chat": {
     "page_title": "Chat with AI",
@@ -49,6 +79,22 @@
     "placeholder": "Ask a question about my work experience...",
     "empty_heading": "Start a conversation",
     "empty_body": "Ask me anything about my work experience and projects."
+  },
+  "contact": {
+    "page_title": "Contact — Jeremy C Kavuncuoglu",
+    "heading": "Get in Touch",
+    "description": "Have a project in mind or want to connect? Send me a message and I'll get back to you as soon as possible.",
+    "name": "Name",
+    "name_placeholder": "Your full name",
+    "email": "Email",
+    "email_placeholder": "your@email.com",
+    "subject": "Subject",
+    "subject_placeholder": "optional",
+    "message": "Message",
+    "message_placeholder": "Tell me about your project or idea...",
+    "send": "Send Message",
+    "success_heading": "Message sent!",
+    "success_body": "Thank you for reaching out. I'll get back to you as soon as possible."
   },
   "auth": {
     "login_title": "Log in",

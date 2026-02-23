@@ -3,7 +3,8 @@
     "home": "Startseite",
     "chat": "Chat",
     "login": "Anmelden",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "contact": "Kontakt"
   },
   "footer": {
     "rights": "© {year} Jeremy C Kavuncuoglu. Alle Rechte vorbehalten."
@@ -11,7 +12,7 @@
   "welcome": {
     "badge": "Offen für neue Möglichkeiten",
     "name": "Jeremy C Kavuncuoglu",
-    "title": "Enterprise-Anwendungs- & Cloud-Lösungsarchitekt",
+    "title": "Enterprise-Anwendungs- & Cloud-Lösungs Engineer mit Jahrzente langer erfahrung",
     "hero_body": "Ich entwerfe und liefere sichere, skalierbare Laravel-Anwendungen und AWS-Cloud-Infrastruktur für Unternehmens­teams. Spezialisiert auf Amazon Connect-Flow-Architektur, serverlose Systeme und DevSecOps-Automatisierung für zuverlässige, hochperformante Kundenerlebnisse.",
     "expertise": "Kernkompetenzen:",
     "about_title": "Über mich",
@@ -27,7 +28,7 @@
     "skill_frontend": "Frontend",
     "skill_backend": "Backend",
     "skill_devops": "DevOps & Cloud",
-    "skill_devsecops": "DevSecOps",
+    "skill_devsecops": "Sicherheit & Compliance",
     "skill_infrastructure": "Infrastruktur",
     "skill_tools": "Werkzeuge",
     "projects_title": "Ausgewählte Projekte",
@@ -39,7 +40,36 @@
     "project3_desc": "Erstellung einer automatisierten Sicherheits­scan-Pipeline mit Integration von SAST, DAST und Abhängigkeits­prüfungen in den Entwicklungs­workflow.",
     "contact_title": "Lass uns zusammenarbeiten",
     "contact_body": "Ich bin stets offen für neue Möglichkeiten und Kooperationen. Ob Sie ein Projekt im Sinn haben oder einfach in Kontakt treten möchten – melden Sie sich gerne.",
-    "contact_cta": "Kontakt aufnehmen"
+    "contact_cta": "Kontakt aufnehmen",
+    "toc_title": "Auf dieser Seite",
+    "hero_headline": "Hallo, mein name ist Jeremy Kavuncuoglu",
+    "hero_cta": "Kontakt aufnehmen",
+    "hero_secondary_cta": "Projekte ansehen",
+    "skills_tab_skills": "Fähigkeiten",
+    "skills_tab_tech": "Technologien",
+    "experience_title": "Erfahrung",
+    "exp1_period": "2023–Heute",
+    "exp1_role": "Senior PHP-Entwickler",
+    "exp1_company": "Pleio",
+    "exp1_desc": "Führte das Upgrade der Kernanwendung von Laravel 6 / Vue 2 / Bootstrap auf Laravel 12 / Vue 3 / TailwindCSS durch. Verwaltete die AWS-Cloud-Umgebung (EC2, RDS, ECS, S3, Lambda, CloudWatch, IAM, Redshift, ElastiCache) für Sicherheit und Kosteneffizienz. Entwickelte KI-Infrastruktur für Echtzeit-Telefonsystemanalysen via serverloser Lambda-Skripte und optimierte das Patientenkontaktsystem mit einer Leistungssteigerung von 40 %. Leitete das Offshore-Entwicklungsteam und stimmte Sprint-Ziele und Stakeholder-Erwartungen ab.",
+    "exp2_period": "2021–2023",
+    "exp2_role": "Full-Stack-Engineer",
+    "exp2_company": "360 Quote, LLC",
+    "exp2_desc": "Architektur und Entwicklung eines Multi-Site-Lead-Management-Systems mit einem individuellen Echtzeit-Biet-Algorithmus, der Leads basierend auf Nachfrage, Präferenzen und Qualität verteilte und die Conversion-Rate deutlich steigerte. Entwickelte benutzerdefinierte WordPress-Plugins und CLI-Tools zur Automatisierung von Metadaten, URL-Struktur und Masseninhalts-Updates für groß angelegte SEO-Maßnahmen.",
+    "exp3_period": "2020–2021",
+    "exp3_role": "Full-Stack-Entwickler",
+    "exp3_company": "Skar Audio",
+    "exp3_desc": "Entwickelte eine PHP-basierte Omni-Channel-Operations-Management-Plattform, die Echtzeit-Bestände, Bestellungen und Kundendaten über Amazon, eBay, Shopify und eigene Shops synchronisierte. Gestaltete ein modulares, skalierbares Backend mit optimierten Datenbankabfragen und intuitive Dashboards zur Automatisierung von Auftragsabwicklung, Versand und Bestandsabgleich.",
+    "exp4_period": "2018–2020",
+    "exp4_role": "Senior Web-Entwickler",
+    "exp4_company": "Global Widget",
+    "exp4_desc": "Entwickelte ein webbasiertes Laravel-Produktmanagementsystem mit intuitiver Benutzeroberfläche für effizientes Bestands-Tracking. Führte Agile-Methoden im Team ein und richtete eine standardisierte lokale Docker-Entwicklungsumgebung ein, was Konsistenz und Teamproduktivität deutlich steigerte.",
+    "project_github": "GitHub",
+    "project_demo": "Live-Demo",
+    "blog_title": "Blog",
+    "blog_view_all": "Alle auf Medium ansehen",
+    "blog_empty": "Noch keine Beiträge verfügbar. Schau bald wieder vorbei.",
+    "blog_read": "Auf Medium lesen"
   },
   "chat": {
     "page_title": "Chat mit KI",
@@ -49,6 +79,22 @@
     "placeholder": "Stellen Sie eine Frage zu meiner Berufserfahrung...",
     "empty_heading": "Gespräch beginnen",
     "empty_body": "Fragen Sie mich alles über meine Berufserfahrung und Projekte."
+  },
+  "contact": {
+    "page_title": "Kontakt — Jeremy C Kavuncuoglu",
+    "heading": "Kontakt aufnehmen",
+    "description": "Haben Sie ein Projekt im Sinn oder möchten Sie sich vernetzen? Schicken Sie mir eine Nachricht und ich melde mich so schnell wie möglich.",
+    "name": "Name",
+    "name_placeholder": "Ihr vollständiger Name",
+    "email": "E-Mail",
+    "email_placeholder": "ihre@email.de",
+    "subject": "Betreff",
+    "subject_placeholder": "optional",
+    "message": "Nachricht",
+    "message_placeholder": "Erzählen Sie mir von Ihrem Projekt oder Ihrer Idee...",
+    "send": "Nachricht senden",
+    "success_heading": "Nachricht gesendet!",
+    "success_body": "Vielen Dank für Ihre Nachricht. Ich werde mich so bald wie möglich bei Ihnen melden."
   },
   "auth": {
     "login_title": "Anmelden",

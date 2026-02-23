@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 // Root: detect locale from cookie / Accept-Language, redirect
 Route::get('/', function (Request $request) {
@@ -19,11 +20,10 @@ Route::get('/', function (Request $request) {
 Route::prefix('{locale}')
     ->where(['locale' => 'en|de|tr|es'])
     ->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Welcome', [
-                'canRegister' => Features::enabled(Features::registration()),
-            ]);
-        })->name('home');
+        Route::get('/', WelcomeController::class)->name('home');
+
+        Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+        Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
     });
 
 Route::get('dashboard', function () {
