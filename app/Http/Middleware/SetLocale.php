@@ -9,15 +9,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
-    private const SUPPORTED_LOCALES = ['en', 'de', 'tr', 'es'];
+    private const SUPPORTED_LOCALES = ['en', 'de', 'tr', 'es', 'ar', 'pt', 'fr', 'it', 'nl'];
 
     public function handle(Request $request, Closure $next): Response
     {
-        // Priority: URL route param > cookie > Accept-Language header > 'en'
+        // Priority: URL route param > query param > cookie > Accept-Language header > 'en'
         $locale = $request->route('locale');
 
         if (! in_array($locale, self::SUPPORTED_LOCALES)) {
             $locale = null;
+        }
+
+        if (! $locale) {
+            $queryLocale = $request->query('locale');
+            if (in_array($queryLocale, self::SUPPORTED_LOCALES)) {
+                $locale = $queryLocale;
+            }
         }
 
         if (! $locale) {

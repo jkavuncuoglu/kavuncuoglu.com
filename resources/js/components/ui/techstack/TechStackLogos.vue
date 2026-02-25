@@ -22,6 +22,12 @@ interface TechItem {
 defineProps<{ monochrome?: boolean }>();
 
 const selectedTech = ref<TechItem | null>(null);
+const dialogOpen = ref(false);
+
+const openTech = (item: TechItem) => {
+    selectedTech.value = item;
+    dialogOpen.value = true;
+};
 
 const stack: TechItem[] = [
     // ── Frontend ──────────────────────────────────────────────────
@@ -249,7 +255,7 @@ const stack: TechItem[] = [
             v-for="item in stack"
             :key="item.name"
             class="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-[#e3e3e0] bg-white p-5 transition-all hover:-translate-y-1 hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
-            @click="selectedTech = item"
+            @click="openTech(item)"
         >
             <div class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
                 <TechLogo :kind="item.kind" :img="item.img" :compliance="item.compliance" :name="item.name" />
@@ -260,7 +266,7 @@ const stack: TechItem[] = [
     </div>
 
     <!-- Tech detail dialog -->
-    <Dialog :open="!!selectedTech" @update:open="(v) => { if (!v) selectedTech = null }">
+    <Dialog v-model:open="dialogOpen">
         <DialogContent class="max-w-md">
             <DialogHeader>
                 <div class="mb-4 flex items-center gap-4">

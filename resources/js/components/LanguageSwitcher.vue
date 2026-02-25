@@ -11,14 +11,21 @@ import {
 
 const page = usePage();
 
-const localizedUrls = computed(() => (page.props.localizedUrls as Record<string, string>) ?? {});
+const localizedUrls = computed(
+    () => (page.props.localizedUrls as Record<string, string>) ?? {},
+);
 const currentLocale = computed(() => (page.props.locale as string) ?? 'en');
 
 const localeLabels: Record<string, string> = {
-    en: 'English',
+    ar: 'العربية',
     de: 'Deutsch',
-    tr: 'Türkçe',
+    en: 'English',
     es: 'Español',
+    fr: 'France',
+    it: 'Italiano',
+    nl: 'Nederlands',
+    pt: 'Português',
+    tr: 'Türkçe',
 };
 
 const open = ref(false);
@@ -33,7 +40,7 @@ function switchLocale(locale: string) {
 <template>
     <DropdownMenu v-model:open="open">
         <DropdownMenuTrigger
-            class="flex items-center gap-1.5 rounded px-2 py-1 text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC] focus:outline-none"
+            class="flex items-center gap-1.5 rounded px-2 py-1 text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] focus:outline-none dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
         >
             <Globe class="h-4 w-4" />
             <span class="font-medium uppercase">{{ currentLocale }}</span>
@@ -43,7 +50,7 @@ function switchLocale(locale: string) {
             <DropdownMenuItem
                 v-for="(label, locale) in localeLabels"
                 :key="locale"
-                class="flex items-center justify-between gap-3 cursor-pointer"
+                class="flex cursor-pointer items-center justify-between gap-3"
                 @click="switchLocale(locale)"
             >
                 <span>{{ label }}</span>

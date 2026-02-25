@@ -8,6 +8,8 @@ interface CPath {
     dur: number;
     width: number;
     lit: boolean;
+    burst: number;   // number of streak iterations for this activation (3–6)
+    opacity: number; // per-trace base opacity (0.10–0.28)
 }
 interface CPad {
     cx: number;
@@ -30,6 +32,7 @@ interface CChip {
     hLines: number[]; // y-offsets (relative to chip.y) for inner horizontal lines
     vLines: number[]; // x-offsets (relative to chip.x) for inner vertical lines
     pins: CPin[];
+    lit: boolean;
 }
 
 const GRID = 24; // denser grid cell (px)
@@ -77,10 +80,12 @@ function buildChips(w: number, h: number, rng: () => number): CChip[] {
             pins.push({ px: cx + cw, py, lx: cx + cw - 5, ly: py }); // right
         }
 
-        chips.push({ x: cx, y: cy, w: cw, h: ch, hLines, vLines, pins });
+        chips.push({ x: cx, y: cy, w: cw, h: ch, hLines, vLines, pins, lit: false });
     }
     return chips;
 }
+
+const CORNER_R = GRID * 0.38; // ~9px radius for rounded PCB corners
 
 function buildCircuit(w: number, h: number) {
     const rng = makePrng(1984);
@@ -115,10 +120,28 @@ function buildCircuit(w: number, h: number) {
         }
         if (totalLen < GRID * 2) continue;
 
+        // Build path with rounded corners at intermediate turning points
         let d = `M${pts[0].x},${pts[0].y}`;
-        for (let p = 1; p < pts.length; p++) d += ` L${pts[p].x},${pts[p].y}`;
+        for (let p = 1; p < pts.length; p++) {
+            if (p < pts.length - 1) {
+                const A = pts[p - 1], B = pts[p], C = pts[p + 1];
+                const dx1 = B.x - A.x, dy1 = B.y - A.y;
+                const len1 = Math.abs(dx1) + Math.abs(dy1);
+                const dx2 = C.x - B.x, dy2 = C.y - B.y;
+                const len2 = Math.abs(dx2) + Math.abs(dy2);
+                const r = Math.min(CORNER_R, len1 * 0.45, len2 * 0.45);
+                const ux1 = dx1 / len1, uy1 = dy1 / len1;
+                const ux2 = dx2 / len2, uy2 = dy2 / len2;
+                const p1x = B.x - ux1 * r, p1y = B.y - uy1 * r;
+                const p2x = B.x + ux2 * r, p2y = B.y + uy2 * r;
+                d += ` L${p1x},${p1y} Q${B.x},${B.y} ${p2x},${p2y}`;
+            } else {
+                d += ` L${pts[p].x},${pts[p].y}`;
+            }
+        }
 
-        const width = +(rng() * 1.8 + 0.4).toFixed(1);
+        const width = +(rng() * 1.8 + 0.4).toFixed(1); // 0.4–2.2px
+        const opacity = +(0.10 + rng() * 0.18).toFixed(2); // 0.10–0.28
         paths.push({
             d,
             len: totalLen,
@@ -126,14 +149,20 @@ function buildCircuit(w: number, h: number) {
             dur: rng() * 1.8 + 1.0,
             width,
             lit: false,
+            burst: 0,
+            opacity,
         });
 
         pts.forEach((pt, idx) => {
             const ep = idx === 0 || idx === pts.length - 1;
+            // endpoint and mid-point circles scale with line width
+            const r = ep
+                ? +(1.5 + width * 1.0).toFixed(1)   // 2.0 → 6.0
+                : +(0.8 + width * 0.7).toFixed(1);   // 1.15 → 3.95
             pads.push({
                 cx: pt.x,
                 cy: pt.y,
-                r: ep ? 3.5 : 2.2,
+                r,
                 kind: rng() < 0.07 ? 'glow' : 'pad',
                 delay: rng() * 4.5,
             });
@@ -151,10 +180,14 @@ const pads = ref<CPad[]>([]);
 const chips = ref<CChip[]>([]);
 
 let litSet: Set<number> = new Set();
+let litChipSet: Set<number> = new Set();
 let ro: ResizeObserver | null = null;
 let ticker: ReturnType<typeof setInterval> | null = null;
+const burstTimeouts: Map<number, ReturnType<typeof setTimeout>> = new Map();
 
 function rebuild(w: number, h: number) {
+    burstTimeouts.forEach((t) => clearTimeout(t));
+    burstTimeouts.clear();
     svgW.value = Math.ceil(w);
     svgH.value = Math.ceil(h);
     const built = buildCircuit(w, h);
@@ -162,19 +195,48 @@ function rebuild(w: number, h: number) {
     pads.value = built.pads;
     chips.value = built.chips;
     litSet.clear();
+    litChipSet.clear();
 }
 
 function pulse() {
+    // Cancel pending burst timeouts and turn off paths that were lit
     litSet.forEach((i) => {
+        if (burstTimeouts.has(i)) {
+            clearTimeout(burstTimeouts.get(i)!);
+            burstTimeouts.delete(i);
+        }
         if (paths.value[i]) paths.value[i].lit = false;
     });
     litSet.clear();
+
     const count = Math.floor(Math.random() * 10) + 5;
     while (litSet.size < Math.min(count, paths.value.length)) {
         litSet.add(Math.floor(Math.random() * paths.value.length));
     }
+
     litSet.forEach((i) => {
-        if (paths.value[i]) paths.value[i].lit = true;
+        if (!paths.value[i]) return;
+        const burst = Math.floor(Math.random() * 3) + 2; // 2–4 iterations
+        paths.value[i].burst = burst;
+        paths.value[i].lit = true;
+        const t = setTimeout(() => {
+            if (paths.value[i]) paths.value[i].lit = false;
+            burstTimeouts.delete(i);
+        }, burst * 500 + 200);
+        burstTimeouts.set(i, t);
+    });
+
+    // Randomly light 0–2 chips per pulse
+    litChipSet.forEach((i) => {
+        if (chips.value[i]) chips.value[i].lit = false;
+    });
+    litChipSet.clear();
+    const chipCount = Math.floor(Math.random() * 3); // 0, 1, or 2
+    while (litChipSet.size < Math.min(chipCount, chips.value.length)) {
+        litChipSet.add(Math.floor(Math.random() * chips.value.length));
+    }
+    litChipSet.forEach((i) => {
+        if (chips.value[i]) chips.value[i].lit = true;
     });
 }
 
@@ -198,6 +260,8 @@ onMounted(() => {
 onUnmounted(() => {
     ro?.disconnect();
     if (ticker) clearInterval(ticker);
+    burstTimeouts.forEach((t) => clearTimeout(t));
+    burstTimeouts.clear();
 });
 </script>
 
@@ -288,7 +352,7 @@ onUnmounted(() => {
                     :width="chip.w"
                     :height="chip.h"
                     rx="3"
-                    class="chip-body"
+                    :class="['chip-body', chip.lit && 'chip-body-lit']"
                 />
                 <!-- Chip inner die area -->
                 <rect
@@ -297,7 +361,7 @@ onUnmounted(() => {
                     :width="chip.w - 14"
                     :height="chip.h - 14"
                     rx="2"
-                    class="chip-die"
+                    :class="['chip-die', chip.lit && 'chip-die-lit']"
                 />
                 <!-- Inner horizontal dividing lines -->
                 <line
@@ -307,7 +371,7 @@ onUnmounted(() => {
                     :y1="chip.y + hy"
                     :x2="chip.x + chip.w - 9"
                     :y2="chip.y + hy"
-                    class="chip-grid"
+                    :class="['chip-grid', chip.lit && 'chip-grid-lit']"
                 />
                 <!-- Inner vertical dividing lines -->
                 <line
@@ -317,7 +381,7 @@ onUnmounted(() => {
                     :y1="chip.y + 9"
                     :x2="chip.x + vx"
                     :y2="chip.y + chip.h - 9"
-                    class="chip-grid"
+                    :class="['chip-grid', chip.lit && 'chip-grid-lit']"
                 />
                 <!-- Pin lead stubs (pad → chip edge) -->
                 <line
@@ -327,7 +391,7 @@ onUnmounted(() => {
                     :y1="pin.py"
                     :x2="pin.lx"
                     :y2="pin.ly"
-                    class="chip-pin-lead"
+                    :class="['chip-pin-lead', chip.lit && 'chip-pin-lead-lit']"
                 />
                 <!-- Pin pads -->
                 <circle
@@ -336,8 +400,8 @@ onUnmounted(() => {
                     :cx="pin.px"
                     :cy="pin.py"
                     r="2.5"
-                    filter="url(#cb-chip-glow)"
-                    class="chip-pin"
+                    :filter="chip.lit ? 'url(#cb-glow-elec)' : 'url(#cb-chip-glow)'"
+                    :class="['chip-pin', chip.lit && 'chip-pin-lit']"
                 />
             </g>
 
@@ -348,13 +412,15 @@ onUnmounted(() => {
                 :d="p.d"
                 fill="none"
                 :stroke-width="p.width"
-                stroke-linecap="square"
+                stroke-linecap="round"
+                stroke-linejoin="round"
                 :stroke-dasharray="p.len"
                 :class="['cpath', p.lit && 'cpath-lit']"
                 :style="{
                     '--len': p.len,
                     'animation-delay': `${p.delay}s`,
                     'animation-duration': `${p.dur}s`,
+                    'opacity': p.opacity,
                 }"
             />
 
@@ -369,7 +435,11 @@ onUnmounted(() => {
                     stroke-linecap="round"
                     filter="url(#cb-glow-elec)"
                     class="cpath-elec"
-                    :style="{ '--len': p.len }"
+                    :style="{
+                        '--len': p.len,
+                        'animation-iteration-count': p.burst,
+                        'animation-duration': '0.5s',
+                    }"
                 />
             </template>
 
@@ -414,6 +484,32 @@ onUnmounted(() => {
     fill: rgba(80, 130, 190, 0.3);
     stroke: rgba(100, 150, 220, 0.2);
     stroke-width: 0.5;
+    transition: fill 0.35s ease, stroke 0.35s ease;
+}
+
+/* ── Lit (glowing) chip state – light mode ── */
+.chip-body-lit {
+    fill: rgba(59, 130, 246, 0.12);
+    stroke: rgba(59, 130, 246, 0.55);
+    filter: url(#cb-glow);
+    transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+}
+.chip-die-lit {
+    fill: rgba(59, 130, 246, 0.1);
+    stroke: rgba(59, 130, 246, 0.4);
+    transition: fill 0.35s ease, stroke 0.35s ease;
+}
+.chip-grid-lit {
+    stroke: rgba(59, 130, 246, 0.35);
+    transition: stroke 0.35s ease;
+}
+.chip-pin-lead-lit {
+    stroke: rgba(59, 130, 246, 0.6);
+    transition: stroke 0.35s ease;
+}
+.chip-pin-lit {
+    fill: rgba(59, 130, 246, 0.85);
+    stroke: rgba(147, 197, 253, 0.7);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -454,12 +550,14 @@ onUnmounted(() => {
     transform-origin: center;
 }
 
-/* Electricity streak overlay */
+/* Electricity streak overlay — duration and iteration-count set via inline style */
 .cpath-elec {
     stroke: rgba(147, 210, 255, 0.96);
-    stroke-dasharray: 80 99999;
-    stroke-dashoffset: 80;
-    animation: elec-streak 1.2s ease-in-out forwards;
+    stroke-dasharray: 55 99999;
+    stroke-dashoffset: 55;
+    animation-name: elec-streak;
+    animation-timing-function: linear;
+    animation-fill-mode: none;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -482,6 +580,27 @@ onUnmounted(() => {
 :global(.dark) .chip-pin {
     fill: rgba(20, 100, 220, 0.68);
     stroke: rgba(50, 140, 255, 0.5);
+}
+
+/* ── Lit chip state – dark mode ── */
+:global(.dark) .chip-body-lit {
+    fill: rgba(30, 80, 200, 0.25);
+    stroke: rgba(96, 165, 250, 0.75);
+    filter: url(#cb-glow);
+}
+:global(.dark) .chip-die-lit {
+    fill: rgba(20, 60, 180, 0.3);
+    stroke: rgba(96, 165, 250, 0.55);
+}
+:global(.dark) .chip-grid-lit {
+    stroke: rgba(96, 165, 250, 0.5);
+}
+:global(.dark) .chip-pin-lead-lit {
+    stroke: rgba(96, 165, 250, 0.8);
+}
+:global(.dark) .chip-pin-lit {
+    fill: rgba(96, 165, 250, 1);
+    stroke: rgba(186, 230, 255, 0.8);
 }
 
 :global(.dark) .cpath {
@@ -533,21 +652,21 @@ onUnmounted(() => {
 }
 
 /*
- * Electricity streak: animates a bright 80px dash segment from before the
- * path start (dashoffset: +80 → pad is at position −80, invisible) to
- * past the path end (dashoffset: −(len+80) → pad is at position len+80).
- * animation-fill-mode: forwards leaves opacity at 0 when done.
+ * Electricity streak: animates a bright 55px dash segment from before the
+ * path start (dashoffset: +55) to past the path end (dashoffset: −(len+55)).
+ * iteration-count and duration are set via inline style per burst.
+ * animation-fill-mode: none allows clean looping across iterations.
  */
 @keyframes elec-streak {
     0% {
-        stroke-dashoffset: 80%;
+        stroke-dashoffset: 55;
         opacity: 0;
     }
-    12% {
+    6% {
         opacity: 1;
     }
-    90% {
-        opacity: 0.9;
+    94% {
+        opacity: 1;
     }
     100% {
         stroke-dashoffset: calc(-1 * var(--len));

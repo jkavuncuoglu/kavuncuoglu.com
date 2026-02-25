@@ -60,7 +60,7 @@ async function handleSendMessage(content: string) {
 <template>
     <Head title="Chat" />
 
-    <GuestLayout :full-height="true" :show-footer="false">
+    <GuestLayout>
         <div class="flex h-full overflow-hidden">
             <ChatSidebar
                 :conversations="conversations"

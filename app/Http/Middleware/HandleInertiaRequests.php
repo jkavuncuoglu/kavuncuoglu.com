@@ -44,26 +44,34 @@ class HandleInertiaRequests extends Middleware
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale' => app()->getLocale(),
-            'availableLocales' => ['en', 'de', 'tr', 'es'],
+            'availableLocales' => ['en', 'de', 'tr', 'es', 'ar', 'pt', 'fr', 'it', 'nl'],
             'localizedUrls' => $this->buildLocalizedUrls($request),
         ];
     }
 
     private function buildLocalizedUrls(Request $request): array
     {
-        $locale = app()->getLocale();
-        $path   = ltrim($request->path(), '/');
+        $supported = ['en', 'de', 'tr', 'es', 'ar', 'pt', 'fr', 'it', 'nl'];
+        $path = ltrim($request->path(), '/');
 
-        return Collection::make(['en', 'de', 'tr', 'es'])->mapWithKeys(function ($l) use ($locale, $path) {
-            if ($locale !== 'en' && str_starts_with($path, $locale)) {
-                $newPath = $l . substr($path, strlen($locale));
-            } elseif (str_starts_with($path, 'en')) {
-                $newPath = $l . substr($path, 2);
-            } else {
-                $newPath = $l;
+        // Detect if the current path has a locale prefix (exact match or followed by '/')
+        $currentLocale = null;
+        foreach ($supported as $loc) {
+            if ($path === $loc || str_starts_with($path, $loc . '/')) {
+                $currentLocale = $loc;
+                break;
+            }
+        }
+
+        return Collection::make($supported)->mapWithKeys(function ($l) use ($currentLocale, $path) {
+            if ($currentLocale !== null) {
+                // Locale-prefixed route: swap the locale prefix
+                $remainder = substr($path, strlen($currentLocale));
+                return [$l => '/' . $l . $remainder];
             }
 
-            return [$l => '/' . ltrim($newPath, '/')];
+            // Non-locale-prefixed route: keep the same path, use query param to set locale
+            return [$l => '/' . $path . '?locale=' . $l];
         })->all();
     }
 }
