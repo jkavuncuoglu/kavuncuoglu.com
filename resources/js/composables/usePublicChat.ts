@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/vue3';
 import { ref, watch, computed, type Ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export type Message = {
     role: 'user' | 'assistant';
@@ -15,9 +16,8 @@ export type UsePublicChatReturn = {
     clearChat: () => Promise<void>;
 };
 
-const CHAT_STORAGE_KEY = 'public_chat_history';
-
 export function usePublicChat(): UsePublicChatReturn {
+    const { t } = useI18n();
     const messages = ref<Message[]>([]);
     const isStreaming = ref(false);
     const streamingContent = ref('');
@@ -25,24 +25,35 @@ export function usePublicChat(): UsePublicChatReturn {
 
     const locale = computed(() => (usePage().props.locale as string) || 'en');
     const messageUrl = computed(() => `/${locale.value}/chat/message`);
+    const storageKey = computed(() => `public_chat_history_${locale.value}`);
 
     // Load messages from localStorage on init
     try {
-        const storedMessages = localStorage.getItem(CHAT_STORAGE_KEY);
+        const storedMessages = localStorage.getItem(storageKey.value);
         if (storedMessages) {
             messages.value = JSON.parse(storedMessages);
         }
     } catch (e) {
         console.error('Failed to load messages from localStorage', e);
-        localStorage.removeItem(CHAT_STORAGE_KEY);
+        localStorage.removeItem(storageKey.value);
     }
+
+    // Reload messages when locale changes
+    watch(locale, (newLocale) => {
+        try {
+            const stored = localStorage.getItem(`public_chat_history_${newLocale}`);
+            messages.value = stored ? JSON.parse(stored) : [];
+        } catch {
+            messages.value = [];
+        }
+    });
 
     // Watch for changes in messages and save to localStorage
     watch(
         messages,
         (newMessages) => {
             try {
-                localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(newMessages));
+                localStorage.setItem(storageKey.value, JSON.stringify(newMessages));
             } catch (e) {
                 console.error('Failed to save messages to localStorage', e);
             }
@@ -80,14 +91,14 @@ export function usePublicChat(): UsePublicChatReturn {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to send message');
+                throw new Error(t('chat.error'));
             }
 
             const reader = response.body?.getReader();
             const decoder = new TextDecoder();
 
             if (!reader) {
-                throw new Error('No response body');
+                throw new Error(t('chat.error'));
             }
 
             let buffer = '';
@@ -125,7 +136,7 @@ export function usePublicChat(): UsePublicChatReturn {
 
         } catch (e) {
             error.value =
-                e instanceof Error ? e.message : 'An error occurred';
+                e instanceof Error ? e.message : t('chat.error');
             // On error, remove the user message that was added optimistically
             messages.value.pop();
         } finally {
@@ -143,8 +154,7 @@ export function usePublicChat(): UsePublicChatReturn {
                 break;
             }
             case 'error': {
-                const errorData = data as { error: string };
-                error.value = errorData.error;
+                error.value = t('chat.error');
                 break;
             }
         }
@@ -153,7 +163,7 @@ export function usePublicChat(): UsePublicChatReturn {
     async function clearChat(): Promise<void> {
         messages.value = [];
         error.value = null;
-        localStorage.removeItem(CHAT_STORAGE_KEY);
+        localStorage.removeItem(storageKey.value);
     }
 
     return {

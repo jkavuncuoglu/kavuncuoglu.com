@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import TechLogo from '@/components/ui/techstack/TechLogo.vue';
 import {
     Dialog,
@@ -28,6 +29,9 @@ const openTech = (item: TechItem) => {
     selectedTech.value = item;
     dialogOpen.value = true;
 };
+
+const ITEMS_PER_PAGE = 15;
+const currentPage = ref(0);
 
 const stack: TechItem[] = [
     // ── Frontend ──────────────────────────────────────────────────
@@ -246,22 +250,160 @@ const stack: TechItem[] = [
         detail: 'Led sprint planning and retrospectives at Pleio while managing an offshore development team. Translates business requirements into clear sprint goals with measurable acceptance criteria.',
         highlights: ['Sprint planning & retrospectives', 'Offshore team leadership', 'Stakeholder expectation management', 'Backlog refinement & estimation', 'Velocity tracking & forecasting'],
     },
+    // ── AWS Services ─────────────────────────────────────────────
+    {
+        name: 'AWS CodePipeline',
+        sub: 'CI/CD Pipeline',
+        img: '/images/brands/aws-codepipeline.png',
+        detail: 'Automated multi-stage CI/CD pipelines on AWS integrating source, build, test, and deploy stages. Powers fully automated release workflows from GitHub commit to production ECS deployment.',
+        highlights: ['Multi-stage pipeline configuration', 'Source → Build → Deploy automation', 'Integration with CodeBuild & ECR', 'Environment approval gates', 'Rollback triggers on failure'],
+    },
+    {
+        name: 'AWS CodeBuild',
+        sub: 'Build Service',
+        kind: 'codebuild',
+        detail: 'Fully managed build service running test suites, Docker image builds, and deployment packages inside AWS. Integrated with CodePipeline for automated build triggers.',
+        highlights: ['Docker image builds & ECR push', 'Automated test execution', 'Buildspec YAML configuration', 'Environment variable management', 'Build artifact generation'],
+    },
+    {
+        name: 'AWS S3',
+        sub: 'Object Storage',
+        kind: 's3',
+        detail: 'Object storage used for static assets, file uploads, deployment artifacts, and data lake staging. Configured with lifecycle policies, versioning, and fine-grained IAM bucket policies.',
+        highlights: ['Static asset hosting & CDN origin', 'Lifecycle policy configuration', 'Versioning & cross-region replication', 'Signed URL generation', 'Terraform-managed bucket policies'],
+    },
+    {
+        name: 'AWS ECR',
+        sub: 'Container Registry',
+        kind: 'ecr',
+        detail: 'Private container registry storing Docker images for ECS deployments. Integrated into CI/CD pipelines via GitHub Actions and CodePipeline for automated image builds and pushes.',
+        highlights: ['Private Docker image hosting', 'Automated push from CI/CD pipelines', 'Image scanning for vulnerabilities', 'Lifecycle policy for image cleanup', 'Cross-account repository access'],
+    },
+    {
+        name: 'AWS EC2',
+        sub: 'Compute',
+        kind: 'ec2',
+        detail: 'Provisioned and managed EC2 instances for application servers, bastion hosts, and worker processes. Configured auto-scaling groups, load balancers, and security groups for production reliability.',
+        highlights: ['Auto-scaling group configuration', 'Launch template management', 'Security group hardening', 'EBS volume & snapshot management', 'Reserved instance cost optimisation'],
+    },
+    {
+        name: 'AWS Route 53',
+        sub: 'DNS · Routing',
+        kind: 'route53',
+        detail: 'Managed DNS routing for applications including health-check-based failover, weighted routing for blue/green deployments, and private hosted zones for internal services.',
+        highlights: ['Health-check failover routing', 'Weighted routing for deployments', 'Private hosted zones for internal DNS', 'SSL certificate validation via DNS', 'Alias records for ELB & CloudFront'],
+    },
+    {
+        name: 'AWS Lambda',
+        sub: 'Serverless Functions',
+        kind: 'lambda',
+        detail: 'Built serverless functions for real-time phone analytics, event-driven automation, and scheduled jobs. Leveraged Lambda as the processing backbone for the Amazon Connect call analytics pipeline.',
+        highlights: ['Real-time call analytics processing', 'Event-driven triggers (S3, SQS, API Gateway)', 'Amazon Connect Streams integration', 'Python & Node.js runtimes', 'Cold start optimisation'],
+    },
+    {
+        name: 'AWS WorkSpaces',
+        sub: 'Virtual Desktop',
+        kind: 'workspaces',
+        detail: 'Administered AWS WorkSpaces virtual desktops for secure remote access in HIPAA-compliant environments, ensuring PHI data never leaves the AWS network.',
+        highlights: ['HIPAA-compliant remote desktop', 'Active Directory integration', 'Bundle & image management', 'Access control policies', 'Cost-optimised billing modes'],
+    },
+    {
+        name: 'Connect Flows',
+        sub: 'IVR · Contact Flows',
+        kind: 'connectflows',
+        detail: 'Designed and maintained Amazon Connect contact flows powering patient call routing, IVR menus, queue management, and agent whisper flows in a HIPAA-compliant call centre environment.',
+        highlights: ['IVR menu & call routing design', 'Queue transfer & whisper flows', 'Lambda integration within flows', 'Dynamic contact attributes', 'HIPAA-compliant call handling'],
+    },
+    {
+        name: 'Ubuntu',
+        sub: 'Linux OS',
+        kind: 'ubuntu',
+        detail: 'Primary Linux distribution for server environments, Docker base images, and local development. Comfortable with package management, systemd services, file permissions, and server hardening.',
+        highlights: ['Server provisioning & hardening', 'systemd service management', 'Package management (apt/snap)', 'Docker base image configuration', 'SSH & firewall (ufw) configuration'],
+    },
+    {
+        name: 'Bash / Shell',
+        sub: 'Scripting',
+        kind: 'bash',
+        detail: 'Writes production shell scripts for deployment automation, server provisioning, cron jobs, and data processing pipelines. Comfortable with advanced bash patterns, stream processing, and CLI tool composition.',
+        highlights: ['Deployment automation scripts', 'Data processing with awk/sed/jq', 'Cron job scheduling', 'Environment variable management', 'CI/CD pipeline shell steps'],
+    },
+    {
+        name: 'Twilio',
+        sub: 'Communications API',
+        kind: 'twilio',
+        detail: 'Integrated Twilio\'s Programmable Voice and SMS APIs for communications features. Experience with TwiML, webhook configuration, and building softphone-adjacent call handling logic.',
+        highlights: ['Programmable Voice & SMS APIs', 'TwiML response generation', 'Webhook endpoint configuration', 'Call recording & transcription', 'Fallback & error handling'],
+    },
+    {
+        name: 'Python',
+        sub: 'Scripting · Automation',
+        kind: 'python',
+        detail: 'Used Python for AWS Lambda functions, data processing scripts, ETL pipelines, and infrastructure automation via boto3. Focus on clean, maintainable scripts for operational and data engineering tasks.',
+        highlights: ['AWS Lambda (boto3 SDK)', 'Data processing & ETL pipelines', 'Large dataset migration scripts', 'CLI automation tooling', 'S3 / Redshift data workflows'],
+    },
 ];
+
+const pages = computed(() => {
+    const result: TechItem[][] = [];
+    for (let i = 0; i < stack.length; i += ITEMS_PER_PAGE) {
+        result.push(stack.slice(i, i + ITEMS_PER_PAGE));
+    }
+    return result;
+});
+
+const totalPages = computed(() => pages.value.length);
+const currentItems = computed(() => pages.value[currentPage.value] ?? []);
+const prev = () => { if (currentPage.value > 0) currentPage.value--; };
+const next = () => { if (currentPage.value < totalPages.value - 1) currentPage.value++; };
 </script>
 
 <template>
-    <div class="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-        <div
-            v-for="item in stack"
-            :key="item.name"
-            class="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-[#e3e3e0] bg-white p-5 transition-all hover:-translate-y-1 hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
-            @click="openTech(item)"
-        >
-            <div class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
-                <TechLogo :kind="item.kind" :img="item.img" :compliance="item.compliance" :name="item.name" />
+    <div class="flex flex-col items-center gap-6 w-full">
+        <div class="grid w-full grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
+            <div
+                v-for="item in currentItems"
+                :key="item.name"
+                class="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-[#e3e3e0] bg-white p-5 transition-all hover:-translate-y-1 hover:border-[#c9c9c6] hover:shadow-md dark:border-[#2a2a28] dark:bg-[#161615] dark:hover:border-[#3E3E3A]"
+                @click="openTech(item)"
+            >
+                <div class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
+                    <TechLogo :kind="item.kind" :img="item.img" :compliance="item.compliance" :name="item.name" />
+                </div>
+                <span class="text-center text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">{{ item.name }}</span>
+                <span v-if="item.sub" class="text-center text-xs text-[#706f6c] dark:text-[#A1A09A]">{{ item.sub }}</span>
             </div>
-            <span class="text-center text-sm font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">{{ item.name }}</span>
-            <span v-if="item.sub" class="text-center text-xs text-[#706f6c] dark:text-[#A1A09A]">{{ item.sub }}</span>
+        </div>
+
+        <!-- Pagination nav -->
+        <div class="flex items-center gap-4">
+            <button
+                @click="prev"
+                :disabled="currentPage === 0"
+                class="flex h-8 w-8 items-center justify-center rounded-full border border-[#e3e3e0] bg-white text-[#706f6c] transition-colors hover:border-[#c9c9c6] hover:text-[#1b1b18] disabled:cursor-not-allowed disabled:opacity-30 dark:border-[#2a2a28] dark:bg-[#161615] dark:text-[#A1A09A] dark:hover:border-[#3E3E3A] dark:hover:text-[#EDEDEC]"
+            >
+                <ChevronLeft class="h-4 w-4" />
+            </button>
+
+            <div class="flex gap-2">
+                <button
+                    v-for="i in totalPages"
+                    :key="i"
+                    @click="currentPage = i - 1"
+                    :class="i - 1 === currentPage
+                        ? 'w-5 bg-[#1b1b18] dark:bg-[#EDEDEC]'
+                        : 'w-2 bg-[#e3e3e0] dark:bg-[#2a2a28] hover:bg-[#c9c9c6] dark:hover:bg-[#3E3E3A]'"
+                    class="h-2 rounded-full transition-all"
+                />
+            </div>
+
+            <button
+                @click="next"
+                :disabled="currentPage === totalPages - 1"
+                class="flex h-8 w-8 items-center justify-center rounded-full border border-[#e3e3e0] bg-white text-[#706f6c] transition-colors hover:border-[#c9c9c6] hover:text-[#1b1b18] disabled:cursor-not-allowed disabled:opacity-30 dark:border-[#2a2a28] dark:bg-[#161615] dark:text-[#A1A09A] dark:hover:border-[#3E3E3A] dark:hover:text-[#EDEDEC]"
+            >
+                <ChevronRight class="h-4 w-4" />
+            </button>
         </div>
     </div>
 

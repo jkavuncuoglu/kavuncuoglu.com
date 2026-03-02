@@ -73,7 +73,7 @@ const submit = () => {
                         <!-- Contact links card -->
                         <div class="rounded-2xl border border-[#e3e3e0] bg-white p-6 dark:border-[#2a2a28] dark:bg-[#161615]">
                             <p class="mb-4 text-xs font-semibold uppercase tracking-wider text-[#706f6c] dark:text-[#A1A09A]">
-                                Connect with me
+                                {{ t('contact.connect_with_me') }}
                             </p>
                             <div class="space-y-3">
                                 <a
@@ -188,7 +188,7 @@ const submit = () => {
                                     id="subject"
                                     v-model="form.subject"
                                     type="text"
-                                    placeholder="e.g. Project inquiry, Collaboration, Consulting"
+                                    :placeholder="t('contact.subject_input_placeholder')"
                                 />
                                 <InputError :message="form.errors.subject" />
                             </div>
@@ -213,7 +213,7 @@ const submit = () => {
                                 class="w-full gap-2"
                             >
                                 <Send class="h-4 w-4" />
-                                {{ form.processing ? 'Sending…' : t('contact.send') }}
+                                {{ form.processing ? t('contact.sending') : t('contact.send') }}
                             </Button>
                         </form>
                     </div>

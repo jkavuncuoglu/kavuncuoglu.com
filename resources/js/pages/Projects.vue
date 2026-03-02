@@ -39,7 +39,7 @@ const projects = [
 
 <template>
     <GuestLayout>
-        <Head title="Projects — Jeremy C Kavuncuoglu">
+        <Head :title="t('projects.page_title')">
             <meta
                 name="description"
                 content="Open source and personal projects by Jeremy Kavuncuoglu — Vue softphone, Laravel applications, and more."
@@ -53,27 +53,26 @@ const projects = [
                 <span
                     class="mb-4 inline-block rounded-full border border-[#e3e3e0] px-3 py-1 text-xs font-medium tracking-widest text-[#706f6c] uppercase dark:border-[#2a2a28] dark:text-[#A1A09A]"
                 >
-                    Open Source &amp; Personal Work
+                    {{ t('projects.badge') }}
                 </span>
                 <h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                    Projects
+                    {{ t('projects.heading') }}
                 </h1>
                 <p class="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                    A selection of open-source and personal projects — each one a real-world solution to a real-world problem,
-                    built with production quality and published for the community.
+                    {{ t('projects.intro') }}
                 </p>
 
                 <!-- Stat pills -->
                 <div class="flex flex-wrap items-center justify-center gap-2">
-                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">3 Public Repos</span>
-                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">MIT Licensed</span>
-                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">Vue · Laravel · WebRTC</span>
+                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">{{ t('projects.stat_repos') }}</span>
+                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">{{ t('projects.stat_license') }}</span>
+                    <span class="rounded-full border border-[#e3e3e0] px-3 py-1 text-xs text-[#706f6c] dark:border-[#2a2a28] dark:text-[#A1A09A]">{{ t('projects.stat_tech') }}</span>
                 </div>
             </div>
 
             <!-- ─── Section label ─────────────────────────────────── -->
             <div class="mb-8 flex items-center gap-4">
-                <h2 class="shrink-0 text-sm font-semibold tracking-widest uppercase text-[#706f6c] dark:text-[#A1A09A]">Featured Projects</h2>
+                <h2 class="shrink-0 text-sm font-semibold tracking-widest uppercase text-[#706f6c] dark:text-[#A1A09A]">{{ t('projects.featured_label') }}</h2>
                 <div class="h-px flex-1 bg-[#e3e3e0] dark:bg-[#1f1f1f]"></div>
             </div>
 
@@ -136,21 +135,21 @@ const projects = [
                     class="inline-flex items-center gap-2 rounded-lg border border-[#e3e3e0] bg-[#FDFDFC] px-6 py-3 text-sm font-medium transition-colors hover:bg-[#f4f4f2] dark:border-[#2a2a28] dark:bg-[#0a0a0a] dark:hover:bg-[#1f1f1f]"
                 >
                     <Github class="h-4 w-4" />
-                    View all on GitHub
+                    {{ t('projects.view_github') }}
                 </a>
             </div>
 
             <!-- ─── CTA strip ─────────────────────────────────────── -->
             <div class="mt-16 rounded-2xl border border-[#e3e3e0] bg-[#f8f8f7] p-8 text-center dark:border-[#2a2a28] dark:bg-[#111110]">
-                <h2 class="mb-3 text-2xl font-bold tracking-tight">Have a project in mind?</h2>
+                <h2 class="mb-3 text-2xl font-bold tracking-tight">{{ t('projects.cta_heading') }}</h2>
                 <p class="mb-6 text-sm leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                    I'm always open to interesting problems. Let's talk about what we could build together.
+                    {{ t('projects.cta_body') }}
                 </p>
                 <a
                     :href="contactUrl"
                     class="inline-flex items-center gap-2 rounded-lg bg-[#1b1b18] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2d2a] dark:bg-[#EDEDEC] dark:text-[#1b1b18] dark:hover:bg-white"
                 >
-                    Get in touch <span aria-hidden="true">→</span>
+                    {{ t('projects.cta_btn') }} <span aria-hidden="true">→</span>
                 </a>
             </div>
 

@@ -5,7 +5,7 @@ use App\Http\Controllers\PublicChatController;
 use Illuminate\Support\Facades\Route;
 
 // Public chat routes — locale-prefixed
-Route::prefix('{locale}')->where(['locale' => 'en|de|tr|es'])->group(function () {
+Route::prefix('{locale}')->where(['locale' => 'en|de|tr|es|ar|pt|fr|it|nl'])->group(function () {
     Route::get('chat', [PublicChatController::class, 'index'])->name('chat');
     Route::post('chat/message', [PublicChatController::class, 'message'])->name('chat.message');
 });

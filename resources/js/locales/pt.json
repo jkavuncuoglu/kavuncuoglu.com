@@ -7,7 +7,9 @@
         "dashboard": "Painel",
         "contact": "Contato",
         "skills": "Competências",
-        "projects": "Projetos"
+        "projects": "Projetos",
+        "switch_light": "Mudar para modo claro",
+        "switch_dark": "Mudar para modo escuro"
     },
     "footer": {
         "rights": "© {year} Jeremy C Kavuncuoglu. Todos os direitos reservados."
@@ -41,6 +43,10 @@
         "skill_infrastructure_desc": "Garantia de confiabilidade, performance, eficiência de custos e segurança por meio de otimização de consultas, cache inteligente e gerenciamento adequado de tráfego.",
         "skill_tools": "Ferramentas",
         "skill_tools_desc": "Metodologias Agile e Scrum, versionamento com Git e testes automatizados para manter alta qualidade durante todo o ciclo de entrega.",
+        "skill_python": "Python & Scripting",
+        "skill_python_desc": "Automating infrastructure and data tasks with Python scripts, AWS Lambda functions, and Bash shell tooling — from boto3-powered AWS automation to large-scale CLI workflows.",
+        "skill_data": "Data Engineering",
+        "skill_data_desc": "Designing and executing large-scale data processing pipelines, ETL workflows, and database migrations across MySQL, PostgreSQL, and AWS Redshift — with a focus on performance and data integrity.",
         "projects_title": "Projetos em destaque",
         "project1_title": "Plataforma de Infraestrutura em Nuvem",
         "project1_desc": "Projeto e implementação de infraestrutura em nuvem escalável utilizando serviços AWS com pipelines CI/CD automatizadas e práticas de infrastructure-as-code.",
@@ -52,6 +58,7 @@
         "contact_body": "Estou sempre interessado em novas oportunidades e colaborações. Se você tem um projeto em mente ou quer se conectar, fique à vontade para entrar em contato.",
         "contact_cta": "Entrar em contato",
         "toc_title": "Nesta página",
+        "hero_img_alt": "Jeremy Kavuncuoglu - Desenvolvedor Full-Stack Sênior & Especialista em Consultoria Cloud",
         "hero_headline": "Olá, eu sou Jeremy Kavuncuoglu",
         "hero_cta": "Entrar em contato",
         "hero_secondary_cta": "Ver projetos",
@@ -76,7 +83,21 @@
         "welcome_body": "Estou aqui para responder suas perguntas sobre o trabalho e a experiência de Jeremy.",
         "placeholder": "Faça uma pergunta sobre minha experiência profissional...",
         "empty_heading": "Inicie uma conversa",
-        "empty_body": "Pergunte qualquer coisa sobre minha experiência e projetos."
+        "empty_body": "Pergunte qualquer coisa sobre minha experiência e projetos.",
+        "error": "Falha ao gerar uma resposta. Por favor, tente novamente.",
+        "bubble_heading": "Pergunte-me qualquer coisa sobre Jeremy",
+        "bubble_intro": "Sou uma IA executada localmente, treinada no histórico de trabalho, projetos e experiência de Jeremy. Pergunte-me sobre suas habilidades, experiência ou como ele pode ajudar sua equipe.",
+        "bubble_disclaimer_label": "Atenção:",
+        "bubble_disclaimer_body": "As respostas são geradas por IA e podem não ser 100% precisas. Para assuntos importantes, verifique diretamente pelo formulário de contato.",
+        "bubble_try_asking": "Experimente perguntar",
+        "bubble_placeholder": "Pergunte algo…",
+        "bubble_footer": "As respostas de IA podem ser imprecisas · Funciona completamente local",
+        "bubble_clear_title": "Limpar chat",
+        "bubble_toggle_label": "Abrir/fechar chat IA",
+        "bubble_prompt_1": "Qual é sua experiência com AWS?",
+        "bubble_prompt_2": "Fale-me sobre seus projetos Laravel",
+        "bubble_prompt_3": "Como você aborda DevOps e segurança?",
+        "bubble_prompt_4": "Como é o seu stack tecnológico típico?"
     },
     "contact": {
         "page_title": "Contato — Jeremy C Kavuncuoglu",
@@ -85,7 +106,7 @@
         "name": "Nome",
         "name_placeholder": "Seu nome completo",
         "email": "Email",
-        "email_placeholder": "seu@email.com",
+        "email_placeholder": "seu{'@'}email.com",
         "subject": "Assunto",
         "subject_placeholder": "opcional",
         "message": "Mensagem",
@@ -97,14 +118,17 @@
         "response_time_value": "Em até 24 horas",
         "send_message_heading": "Enviar uma mensagem",
         "required_fields_note": "Todos os campos marcados com * são obrigatórios",
-        "open_to_opportunities": "Aberto a oportunidades"
+        "open_to_opportunities": "Aberto a oportunidades",
+        "connect_with_me": "Conecte-se comigo",
+        "subject_input_placeholder": "ex. Consulta de projeto, Colaboração, Consultoria",
+        "sending": "Enviando…"
     },
     "auth": {
         "login_title": "Entrar",
         "login_heading": "Entre na sua conta",
         "login_desc": "Digite seu email e senha abaixo para entrar",
         "email": "Endereço de email",
-        "email_placeholder": "email@exemplo.com",
+        "email_placeholder": "email{'@'}exemplo.com",
         "password": "Senha",
         "forgot": "Esqueceu a senha?",
         "remember": "Lembrar de mim",
@@ -348,6 +372,30 @@
         "s8_body_post": ". Procuramos responder no prazo de",
         "s8_body_bold": "30 dias",
         "s8_body_after": "e não cobraremos qualquer taxa por pedidos razoáveis."
+    },
+    "skills": {
+        "page_title": "Habilidades & Tecnologias — Jeremy C Kavuncuoglu",
+        "badge": "Habilidades & Tecnologias",
+        "heading": "Com o que eu trabalho",
+        "intro": "Uma década de engenharia prática em toda a stack — de interfaces Vue pixel-perfeitas à infraestrutura AWS de produção e controles de segurança de nível HIPAA.",
+        "cta_heading": "Quer trabalhar juntos?",
+        "cta_body": "Estou disponível para projetos freelance, compromissos de consultoria e oportunidades de tempo integral.",
+        "cta_btn": "Entrar em contato",
+        "dialog_tech_label": "Tecnologias"
+    },
+    "projects": {
+        "page_title": "Projetos — Jeremy C Kavuncuoglu",
+        "badge": "Código aberto e projetos pessoais",
+        "heading": "Projetos",
+        "intro": "Uma seleção de projetos de código aberto e pessoais — cada um é uma solução real para um problema real, construído com qualidade de produção e publicado para a comunidade.",
+        "stat_repos": "3 Repositórios públicos",
+        "stat_license": "Licença MIT",
+        "stat_tech": "Vue · Laravel · WebRTC",
+        "featured_label": "Projetos em destaque",
+        "view_github": "Ver tudo no GitHub",
+        "cta_heading": "Tem um projeto em mente?",
+        "cta_body": "Estou sempre aberto a problemas interessantes. Vamos conversar sobre o que poderíamos construir juntos.",
+        "cta_btn": "Entrar em contato"
     },
     "about": {
         "page_title": "Sobre Este Site — Jeremy C Kavuncuoglu",

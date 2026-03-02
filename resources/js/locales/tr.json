@@ -7,7 +7,9 @@
     "dashboard": "Panel",
     "contact": "İletişim",
     "skills": "Beceriler",
-    "projects": "Projeler"
+    "projects": "Projeler",
+    "switch_light": "Aydınlık moda geç",
+    "switch_dark": "Karanlık moda geç"
   },
   "footer": {
     "rights": "© {year} Jeremy C Kavuncuoglu. Tüm hakları saklıdır."
@@ -41,6 +43,10 @@
     "skill_infrastructure_desc": "Veritabanı ve sunucu katmanlarında güvenilirlik, performans, maliyet verimliliği ve güvenliği sağlıyorum — sorgu optimizasyonu, akıllı önbellekleme stratejileri ve doğru trafik yönetimi aracılığıyla.",
     "skill_tools": "Araçlar",
     "skill_tools_desc": "Agile ve Scrum ile iteratif çalışıyor, Git ile temiz sürüm geçmişi tutuyor ve otomatik testlerle davranışı doğruluyorum — teslim döngüsü boyunca ekipleri uyumlu ve kod kalitesini yüksek tutuyorum.",
+    "skill_python": "Python & Scripting",
+    "skill_python_desc": "Automating infrastructure and data tasks with Python scripts, AWS Lambda functions, and Bash shell tooling — from boto3-powered AWS automation to large-scale CLI workflows.",
+    "skill_data": "Data Engineering",
+    "skill_data_desc": "Designing and executing large-scale data processing pipelines, ETL workflows, and database migrations across MySQL, PostgreSQL, and AWS Redshift — with a focus on performance and data integrity.",
     "projects_title": "Öne Çıkan Projeler",
     "project1_title": "Bulut Altyapı Platformu",
     "project1_desc": "Otomatik CI/CD pipeline'ları ve altyapı-kod-olarak pratikleriyle AWS hizmetlerini kullanan ölçeklenebilir bir bulut altyapısı tasarlayıp uyguladım.",
@@ -52,6 +58,7 @@
     "contact_body": "Her zaman yeni fırsatlara ve iş birliklerine açığım. Aklınızda bir proje varsa ya da sadece iletişime geçmek istiyorsanız, bana ulaşmaktan çekinmeyin.",
     "contact_cta": "İletişime Geç",
     "toc_title": "Bu sayfada",
+    "hero_img_alt": "Jeremy Kavuncuoglu - Kıdemli Full-Stack Geliştirici & Bulut Danışmanlık Uzmanı",
     "hero_headline": "Merhaba, ben Jeremy Kavuncuoglu",
     "hero_cta": "İletişime Geç",
     "hero_secondary_cta": "Projeleri Gör",
@@ -88,7 +95,21 @@
     "welcome_body": "Jeremy'nin çalışmaları ve deneyimi hakkındaki sorularınızı yanıtlamak için buradayım.",
     "placeholder": "İş deneyimim hakkında bir soru sorun...",
     "empty_heading": "Bir sohbet başlatın",
-    "empty_body": "İş deneyimim ve projelerim hakkında her şeyi sorabilirsiniz."
+    "empty_body": "İş deneyimim ve projelerim hakkında her şeyi sorabilirsiniz.",
+    "error": "Yanıt oluşturulamadı. Lütfen tekrar deneyin.",
+    "bubble_heading": "Jeremy hakkında her şeyi sorun",
+    "bubble_intro": "Jeremy'nin çalışma geçmişi, projeleri ve uzmanlığı üzerine eğitilmiş, yerel olarak çalışan bir yapay zeka modeliyim. Becerilerim, deneyimim veya ekibinize nasıl yardımcı olabileceğim hakkında sorabilirsiniz.",
+    "bubble_disclaimer_label": "Dikkat:",
+    "bubble_disclaimer_body": "Yanıtlar yapay zeka tarafından oluşturulur ve %100 doğru olmayabilir. Önemli konular için lütfen iletişim formu aracılığıyla doğrulayın.",
+    "bubble_try_asking": "Örnek sorular",
+    "bubble_placeholder": "Bir şeyler sorun…",
+    "bubble_footer": "YZ yanıtları hatalı olabilir · Tamamen yerel olarak çalışır",
+    "bubble_clear_title": "Sohbeti temizle",
+    "bubble_toggle_label": "YZ sohbetini aç/kapat",
+    "bubble_prompt_1": "AWS ile deneyiminiz nedir?",
+    "bubble_prompt_2": "Laravel projeleriniz hakkında bilgi verin",
+    "bubble_prompt_3": "DevOps ve güvenliğe nasıl yaklaşıyorsunuz?",
+    "bubble_prompt_4": "Tipik teknoloji yığınınız nasıl görünüyor?"
   },
   "contact": {
     "page_title": "İletişim — Jeremy C Kavuncuoglu",
@@ -97,7 +118,7 @@
     "name": "Ad Soyad",
     "name_placeholder": "Tam adınız",
     "email": "E-posta",
-    "email_placeholder": "siz@email.com",
+    "email_placeholder": "siz{'@'}email.com",
     "subject": "Konu",
     "subject_placeholder": "isteğe bağlı",
     "message": "Mesaj",
@@ -109,14 +130,17 @@
     "response_time_value": "24 saat içinde",
     "send_message_heading": "Mesaj gönder",
     "required_fields_note": "* ile işaretli tüm alanlar zorunludur",
-    "open_to_opportunities": "Fırsatlara açık"
+    "open_to_opportunities": "Fırsatlara açık",
+    "connect_with_me": "Benimle bağlantı kurun",
+    "subject_input_placeholder": "ör. Proje sorgusu, İşbirliği, Danışmanlık",
+    "sending": "Gönderiliyor…"
   },
   "auth": {
     "login_title": "Giriş Yap",
     "login_heading": "Hesabınıza giriş yapın",
     "login_desc": "Giriş yapmak için e-posta ve şifrenizi girin",
     "email": "E-posta adresi",
-    "email_placeholder": "email@ornek.com",
+    "email_placeholder": "email{'@'}ornek.com",
     "password": "Şifre",
     "forgot": "Şifremi unuttum?",
     "remember": "Beni hatırla",
@@ -360,6 +384,30 @@
     "s8_body_post": "aracılığıyla bize ulaşın.",
     "s8_body_bold": "30 gün",
     "s8_body_after": "içinde yanıt vermeyi hedefliyoruz ve makul talepler için ücret almıyoruz."
+  },
+  "skills": {
+    "page_title": "Beceriler & Teknolojiler — Jeremy C Kavuncuoglu",
+    "badge": "Beceriler & Teknolojiler",
+    "heading": "Nelerle Çalışıyorum",
+    "intro": "Tam yığında on yıllık uygulamalı mühendislik deneyimi — piksel mükemmeliyetinde Vue arayüzlerinden AWS üretim altyapısına ve HIPAA düzeyinde güvenlik kontrollerine kadar.",
+    "cta_heading": "Birlikte çalışmak ister misiniz?",
+    "cta_body": "Serbest projeler, danışmanlık görevleri ve tam zamanlı fırsatlar için müsaitim.",
+    "cta_btn": "İletişime geç",
+    "dialog_tech_label": "Teknolojiler"
+  },
+  "projects": {
+    "page_title": "Projeler — Jeremy C Kavuncuoglu",
+    "badge": "Açık Kaynak & Kişisel Çalışmalar",
+    "heading": "Projeler",
+    "intro": "Açık kaynaklı ve kişisel projelerden bir seçki — her biri gerçek bir soruna gerçek bir çözüm, üretim kalitesinde geliştirilmiş ve toplulukla paylaşılmıştır.",
+    "stat_repos": "3 Herkese Açık Repo",
+    "stat_license": "MIT Lisanslı",
+    "stat_tech": "Vue · Laravel · WebRTC",
+    "featured_label": "Öne Çıkan Projeler",
+    "view_github": "GitHub'da tümünü gör",
+    "cta_heading": "Aklınızda bir proje mi var?",
+    "cta_body": "Her zaman ilginç problemlere açığım. Birlikte neler inşa edebileceğimiz hakkında konuşalım.",
+    "cta_btn": "İletişime geç"
   },
   "about": {
     "page_title": "Bu Site Hakkında — Jeremy C Kavuncuoglu",

@@ -7,7 +7,9 @@
         "dashboard": "Dashboard",
         "contact": "Contact",
         "skills": "Vaardigheden",
-        "projects": "Projecten"
+        "projects": "Projecten",
+        "switch_light": "Overschakelen naar lichte modus",
+        "switch_dark": "Overschakelen naar donkere modus"
     },
     "footer": {
         "rights": "© {year} Jeremy C Kavuncuoglu. Alle rechten voorbehouden."
@@ -41,6 +43,10 @@
         "skill_infrastructure_desc": "Waarborgen van betrouwbaarheid, prestaties, kostenefficiëntie en beveiliging via query-optimalisatie, slimme cachingstrategieën en goed verkeersbeheer.",
         "skill_tools": "Tools",
         "skill_tools_desc": "Werken volgens Agile en Scrum, versiebeheer met Git en geautomatiseerde tests om hoge codekwaliteit te garanderen gedurende de hele ontwikkelcyclus.",
+        "skill_python": "Python & Scripting",
+        "skill_python_desc": "Automating infrastructure and data tasks with Python scripts, AWS Lambda functions, and Bash shell tooling — from boto3-powered AWS automation to large-scale CLI workflows.",
+        "skill_data": "Data Engineering",
+        "skill_data_desc": "Designing and executing large-scale data processing pipelines, ETL workflows, and database migrations across MySQL, PostgreSQL, and AWS Redshift — with a focus on performance and data integrity.",
         "projects_title": "Uitgelichte Projecten",
         "project1_title": "Cloud Infrastructuur Platform",
         "project1_desc": "Ontwerp en implementatie van een schaalbare cloudinfrastructuur met AWS-diensten en geautomatiseerde CI/CD-pipelines volgens infrastructure-as-code principes.",
@@ -52,6 +58,7 @@
         "contact_body": "Ik ben altijd geïnteresseerd in nieuwe kansen en samenwerkingen. Heb je een project in gedachten of wil je gewoon contact opnemen? Neem gerust contact op.",
         "contact_cta": "Neem contact op",
         "toc_title": "Op deze pagina",
+        "hero_img_alt": "Jeremy Kavuncuoglu - Senior Full-Stack Developer & Cloud Consulting Specialist",
         "hero_headline": "Hallo, ik ben Jeremy Kavuncuoglu",
         "hero_cta": "Neem contact op",
         "hero_secondary_cta": "Bekijk projecten",
@@ -88,7 +95,21 @@
         "welcome_body": "Ik help je graag met vragen over Jeremy's werk en ervaring.",
         "placeholder": "Stel een vraag over mijn werkervaring...",
         "empty_heading": "Start een gesprek",
-        "empty_body": "Vraag me alles over mijn werkervaring en projecten."
+        "empty_body": "Vraag me alles over mijn werkervaring en projecten.",
+        "error": "Kan geen antwoord genereren. Probeer het opnieuw.",
+        "bubble_heading": "Vraag me alles over Jeremy",
+        "bubble_intro": "Ik ben een lokaal draaiende AI, getraind op Jeremy's werkgeschiedenis, projecten en expertise. Stel me vragen over zijn vaardigheden, ervaring of hoe hij jouw team kan helpen.",
+        "bubble_disclaimer_label": "Let op:",
+        "bubble_disclaimer_body": "Antwoorden worden gegenereerd door AI en zijn mogelijk niet 100% nauwkeurig. Verifieer voor belangrijke zaken rechtstreeks via het contactformulier.",
+        "bubble_try_asking": "Probeer te vragen",
+        "bubble_placeholder": "Stel een vraag…",
+        "bubble_footer": "AI-antwoorden kunnen onnauwkeurig zijn · Volledig lokaal uitgevoerd",
+        "bubble_clear_title": "Chat wissen",
+        "bubble_toggle_label": "AI-chat openen/sluiten",
+        "bubble_prompt_1": "Wat is jouw ervaring met AWS?",
+        "bubble_prompt_2": "Vertel me over jouw Laravel-projecten",
+        "bubble_prompt_3": "Hoe pak je DevOps en beveiliging aan?",
+        "bubble_prompt_4": "Hoe ziet jouw typische tech stack eruit?"
     },
     "contact": {
         "page_title": "Contact — Jeremy C Kavuncuoglu",
@@ -97,7 +118,7 @@
         "name": "Naam",
         "name_placeholder": "Je volledige naam",
         "email": "E-mail",
-        "email_placeholder": "jouw@email.com",
+        "email_placeholder": "jouw{'@'}email.com",
         "subject": "Onderwerp",
         "subject_placeholder": "optioneel",
         "message": "Bericht",
@@ -109,14 +130,17 @@
         "response_time_value": "Binnen 24 uur",
         "send_message_heading": "Stuur een bericht",
         "required_fields_note": "Alle velden met * zijn verplicht",
-        "open_to_opportunities": "Open voor kansen"
+        "open_to_opportunities": "Open voor kansen",
+        "connect_with_me": "Verbind met mij",
+        "subject_input_placeholder": "bijv. Projectaanvraag, Samenwerking, Consultancy",
+        "sending": "Bezig met verzenden…"
     },
     "auth": {
         "login_title": "Inloggen",
         "login_heading": "Log in op je account",
         "login_desc": "Voer hieronder je e-mailadres en wachtwoord in om in te loggen",
         "email": "E-mailadres",
-        "email_placeholder": "email@voorbeeld.com",
+        "email_placeholder": "email{'@'}voorbeeld.com",
         "password": "Wachtwoord",
         "forgot": "Wachtwoord vergeten?",
         "remember": "Onthoud mij",
@@ -360,6 +384,30 @@
         "s8_body_post": ". Wij streven ernaar binnen",
         "s8_body_bold": "30 dagen",
         "s8_body_after": "te reageren en brengen geen kosten in rekening voor redelijke verzoeken."
+    },
+    "skills": {
+        "page_title": "Vaardigheden & Technologieën — Jeremy C Kavuncuoglu",
+        "badge": "Vaardigheden & Technologieën",
+        "heading": "Waarmee ik werk",
+        "intro": "Een decennium van praktische engineering over de volledige stack — van pixel-perfecte Vue-interfaces tot AWS-productie-infrastructuur en beveiligingscontroles op HIPAA-niveau.",
+        "cta_heading": "Wil je samenwerken?",
+        "cta_body": "Ik ben beschikbaar voor freelance projecten, consultancyopdrachten en voltijdse kansen.",
+        "cta_btn": "Neem contact op",
+        "dialog_tech_label": "Technologieën"
+    },
+    "projects": {
+        "page_title": "Projecten — Jeremy C Kavuncuoglu",
+        "badge": "Open source & persoonlijke projecten",
+        "heading": "Projecten",
+        "intro": "Een selectie van open source en persoonlijke projecten — elk een echte oplossing voor een echt probleem, gebouwd met productiekwaliteit en gepubliceerd voor de community.",
+        "stat_repos": "3 Publieke Repo's",
+        "stat_license": "MIT-licentie",
+        "stat_tech": "Vue · Laravel · WebRTC",
+        "featured_label": "Uitgelichte projecten",
+        "view_github": "Bekijk alles op GitHub",
+        "cta_heading": "Heb je een project in gedachten?",
+        "cta_body": "Ik sta altijd open voor interessante problemen. Laten we bespreken wat we samen kunnen bouwen.",
+        "cta_btn": "Neem contact op"
     },
     "about": {
         "page_title": "Over Deze Site — Jeremy C Kavuncuoglu",

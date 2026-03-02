@@ -7,7 +7,9 @@
         "dashboard": "لوحة التحكم",
         "contact": "اتصل",
         "skills": "المهارات",
-        "projects": "المشاريع"
+        "projects": "المشاريع",
+        "switch_light": "التبديل إلى الوضع الفاتح",
+        "switch_dark": "التبديل إلى الوضع الداكن"
     },
     "footer": {
         "rights": "© {year} Jeremy C Kavuncuoglu. جميع الحقوق محفوظة."
@@ -41,6 +43,10 @@
         "skill_infrastructure_desc": "ضمان الاعتمادية والأداء والكفاءة من حيث التكلفة والأمان عبر تحسين الاستعلامات، واستراتيجيات التخزين المؤقت الذكية، وإدارة حركة المرور بشكل صحيح.",
         "skill_tools": "الأدوات",
         "skill_tools_desc": "العمل وفق منهجيات Agile وScrum، وإدارة الإصدارات باستخدام Git، واعتماد الاختبارات الآلية للحفاظ على جودة عالية طوال دورة التطوير.",
+        "skill_python": "Python & Scripting",
+        "skill_python_desc": "Automating infrastructure and data tasks with Python scripts, AWS Lambda functions, and Bash shell tooling — from boto3-powered AWS automation to large-scale CLI workflows.",
+        "skill_data": "Data Engineering",
+        "skill_data_desc": "Designing and executing large-scale data processing pipelines, ETL workflows, and database migrations across MySQL, PostgreSQL, and AWS Redshift — with a focus on performance and data integrity.",
         "projects_title": "مشاريع مميزة",
         "project1_title": "منصة بنية تحتية سحابية",
         "project1_desc": "تصميم وتنفيذ بنية تحتية سحابية قابلة للتوسع باستخدام خدمات AWS مع خطوط CI/CD مؤتمتة وممارسات Infrastructure-as-Code.",
@@ -52,6 +58,7 @@
         "contact_body": "أنا مهتم دائمًا بفرص جديدة وتعاونات مهنية. إذا كان لديك مشروع أو ترغب بالتواصل، فلا تتردد في مراسلتي.",
         "contact_cta": "تواصل معي",
         "toc_title": "في هذه الصفحة",
+        "hero_img_alt": "Jeremy Kavuncuoglu - مطور Full-Stack أول ومتخصص في استشارات السحابة",
         "hero_headline": "مرحبًا، أنا Jeremy Kavuncuoglu",
         "hero_cta": "تواصل معي",
         "hero_secondary_cta": "عرض المشاريع",
@@ -88,7 +95,21 @@
         "welcome_body": "أنا هنا للإجابة على أسئلتك حول عمل وخبرة Jeremy.",
         "placeholder": "اطرح سؤالاً حول خبرتي المهنية...",
         "empty_heading": "ابدأ محادثة",
-        "empty_body": "اسألني أي شيء حول خبرتي ومشاريعي."
+        "empty_body": "اسألني أي شيء حول خبرتي ومشاريعي.",
+        "error": "فشل في توليد استجابة. يرجى المحاولة مرة أخرى.",
+        "bubble_heading": "اسألني أي شيء عن Jeremy",
+        "bubble_intro": "أنا نموذج ذكاء اصطناعي يعمل محليًا، مدرَّب على تاريخ عمل Jeremy ومشاريعه وخبراته. اسألني عن مهاراته وتجربته أو كيف يمكنه مساعدة فريقك.",
+        "bubble_disclaimer_label": "تنبيه:",
+        "bubble_disclaimer_body": "الردود مولَّدة بواسطة الذكاء الاصطناعي وقد لا تكون دقيقة بنسبة 100%. بالنسبة للأمور المهمة، يُرجى التحقق مباشرةً عبر نموذج الاتصال.",
+        "bubble_try_asking": "جرب أن تسأل",
+        "bubble_placeholder": "اسأل شيئًا…",
+        "bubble_footer": "قد تكون ردود الذكاء الاصطناعي غير دقيقة · يعمل بالكامل محليًا",
+        "bubble_clear_title": "مسح المحادثة",
+        "bubble_toggle_label": "فتح/إغلاق دردشة الذكاء الاصطناعي",
+        "bubble_prompt_1": "ما هي تجربتك مع AWS؟",
+        "bubble_prompt_2": "أخبرني عن مشاريعك بـ Laravel",
+        "bubble_prompt_3": "كيف تتعامل مع DevOps والأمان؟",
+        "bubble_prompt_4": "كيف يبدو مجموعة تقنياتك المعتادة؟"
     },
     "contact": {
         "page_title": "اتصل — Jeremy C Kavuncuoglu",
@@ -97,7 +118,7 @@
         "name": "الاسم",
         "name_placeholder": "اسمك الكامل",
         "email": "البريد الإلكتروني",
-        "email_placeholder": "your@email.com",
+        "email_placeholder": "your{'@'}email.com",
         "subject": "الموضوع",
         "subject_placeholder": "اختياري",
         "message": "الرسالة",
@@ -109,14 +130,17 @@
         "response_time_value": "في غضون 24 ساعة",
         "send_message_heading": "إرسال رسالة",
         "required_fields_note": "جميع الحقول المميزة بـ * مطلوبة",
-        "open_to_opportunities": "منفتح على الفرص"
+        "open_to_opportunities": "منفتح على الفرص",
+        "connect_with_me": "تواصل معي",
+        "subject_input_placeholder": "مثال: استفسار عن مشروع، تعاون، استشارة",
+        "sending": "جارٍ الإرسال…"
     },
     "auth": {
         "login_title": "تسجيل الدخول",
         "login_heading": "تسجيل الدخول إلى حسابك",
         "login_desc": "أدخل بريدك الإلكتروني وكلمة المرور أدناه",
         "email": "البريد الإلكتروني",
-        "email_placeholder": "email@example.com",
+        "email_placeholder": "email{'@'}example.com",
         "password": "كلمة المرور",
         "forgot": "هل نسيت كلمة المرور؟",
         "remember": "تذكرني",
@@ -360,6 +384,30 @@
         "s8_body_post": ". نهدف إلى الرد خلال",
         "s8_body_bold": "30 يومًا",
         "s8_body_after": "ولن نفرض أي رسوم على الطلبات المعقولة."
+    },
+    "skills": {
+        "page_title": "المهارات والتقنيات — Jeremy C Kavuncuoglu",
+        "badge": "المهارات والتقنيات",
+        "heading": "ما أعمل به",
+        "intro": "عقد من الهندسة العملية عبر المكدس الكامل — من واجهات Vue الدقيقة بدقة البكسل إلى بنية AWS الإنتاجية وضوابط الأمان بمستوى HIPAA.",
+        "cta_heading": "هل تريد العمل معًا؟",
+        "cta_body": "أنا متاح لمشاريع العمل الحر والارتباطات الاستشارية والفرص بدوام كامل.",
+        "cta_btn": "تواصل معي",
+        "dialog_tech_label": "التقنيات"
+    },
+    "projects": {
+        "page_title": "المشاريع — Jeremy C Kavuncuoglu",
+        "badge": "مشاريع مفتوحة المصدر وشخصية",
+        "heading": "المشاريع",
+        "intro": "مجموعة مختارة من مشاريع مفتوحة المصدر والمشاريع الشخصية — كل منها حل حقيقي لمشكلة حقيقية، مبني بجودة إنتاجية ومنشور للمجتمع.",
+        "stat_repos": "3 مستودعات عامة",
+        "stat_license": "رخصة MIT",
+        "stat_tech": "Vue · Laravel · WebRTC",
+        "featured_label": "مشاريع مميزة",
+        "view_github": "عرض الكل على GitHub",
+        "cta_heading": "هل لديك مشروع في ذهنك؟",
+        "cta_body": "أنا منفتح دائمًا على المشاكل المثيرة للاهتمام. دعنا نتحدث عما يمكننا بناؤه معًا.",
+        "cta_btn": "تواصل معي"
     },
     "about": {
         "page_title": "حول هذا الموقع — جيريمي ك. كافونجوغلو",

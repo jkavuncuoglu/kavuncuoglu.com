@@ -241,5 +241,118 @@ defineProps<{
             <circle cx="50" cy="50" r="5" fill="currentColor" opacity="0.8"/>
         </svg>
 
+        <!-- Python -->
+        <svg v-else-if="kind === 'python'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10 C34 10 26 18 26 30 L26 42 L50 42 L50 46 L18 46 C10 46 4 52 4 60 L4 70 C4 82 12 90 26 90 C26 90 26 82 26 76 C26 70 30 66 38 66 L62 66 C70 66 74 60 74 54 L74 30 C74 18 66 10 50 10Z" fill="#3776AB"/>
+            <path d="M50 90 C66 90 74 82 74 70 L74 58 L50 58 L50 54 L82 54 C90 54 96 48 96 40 L96 30 C96 18 88 10 74 10 C74 10 74 18 74 24 C74 30 70 34 62 34 L38 34 C30 34 26 40 26 46 L26 70 C26 82 34 90 50 90Z" fill="#FFD43B"/>
+            <circle cx="38" cy="26" r="5" fill="white"/>
+            <circle cx="62" cy="74" r="5" fill="white"/>
+        </svg>
+
+        <!-- Ubuntu -->
+        <svg v-else-if="kind === 'ubuntu'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" fill="#E95420"/>
+            <circle cx="50" cy="50" r="22" fill="none" stroke="white" stroke-width="8"/>
+            <circle cx="50" cy="18" r="8" fill="white"/>
+            <circle cx="21" cy="65" r="8" fill="white"/>
+            <circle cx="79" cy="65" r="8" fill="white"/>
+        </svg>
+
+        <!-- Bash / Shell -->
+        <svg v-else-if="kind === 'bash'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#1a1a2e"/>
+            <text x="14" y="52" fill="#4CAF50" font-size="18" font-family="monospace" font-weight="bold">$</text>
+            <text x="28" y="52" fill="#EDEDEC" font-size="18" font-family="monospace" font-weight="bold">_</text>
+            <line x1="14" y1="64" x2="86" y2="64" stroke="#2a2a4a" stroke-width="1.5"/>
+            <text x="14" y="80" fill="#555577" font-size="11" font-family="monospace">bash</text>
+        </svg>
+
+        <!-- Twilio -->
+        <svg v-else-if="kind === 'twilio'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" fill="#F22F46"/>
+            <circle cx="37" cy="37" r="9" fill="white"/>
+            <circle cx="63" cy="37" r="9" fill="white"/>
+            <circle cx="37" cy="63" r="9" fill="white"/>
+            <circle cx="63" cy="63" r="9" fill="white"/>
+        </svg>
+
+        <!-- AWS S3 -->
+        <svg v-else-if="kind === 's3'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <text x="50" y="48" text-anchor="middle" fill="white" font-weight="bold" font-size="22" font-family="Arial, sans-serif">S3</text>
+            <ellipse cx="50" cy="62" rx="18" ry="6" fill="white" opacity="0.9"/>
+            <rect x="32" y="62" width="36" height="12" fill="white" opacity="0.9"/>
+            <ellipse cx="50" cy="74" rx="18" ry="6" fill="white" opacity="0.7"/>
+        </svg>
+
+        <!-- AWS ECR -->
+        <svg v-else-if="kind === 'ecr'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <rect x="28" y="30" width="44" height="40" rx="4" fill="white" opacity="0.9"/>
+            <rect x="35" y="38" width="30" height="6" rx="2" fill="#FF9900" opacity="0.8"/>
+            <rect x="35" y="48" width="22" height="6" rx="2" fill="#FF9900" opacity="0.6"/>
+            <text x="50" y="86" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Arial, sans-serif">ECR</text>
+        </svg>
+
+        <!-- AWS EC2 -->
+        <svg v-else-if="kind === 'ec2'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <rect x="22" y="28" width="56" height="14" rx="3" fill="white" opacity="0.9"/>
+            <rect x="22" y="46" width="56" height="14" rx="3" fill="white" opacity="0.75"/>
+            <rect x="22" y="64" width="56" height="8" rx="3" fill="white" opacity="0.55"/>
+            <circle cx="30" cy="35" r="3" fill="#FF9900"/>
+            <circle cx="30" cy="53" r="3" fill="#FF9900"/>
+            <text x="50" y="86" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Arial, sans-serif">EC2</text>
+        </svg>
+
+        <!-- AWS Route 53 -->
+        <svg v-else-if="kind === 'route53'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <circle cx="50" cy="44" r="22" fill="none" stroke="white" stroke-width="4" opacity="0.9"/>
+            <ellipse cx="50" cy="44" rx="10" ry="22" fill="none" stroke="white" stroke-width="2.5" opacity="0.7"/>
+            <line x1="28" y1="44" x2="72" y2="44" stroke="white" stroke-width="2.5" opacity="0.7"/>
+            <text x="50" y="86" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Arial, sans-serif">R53</text>
+        </svg>
+
+        <!-- AWS Lambda -->
+        <svg v-else-if="kind === 'lambda'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <text x="50" y="68" text-anchor="middle" fill="white" font-weight="bold" font-size="52" font-family="Georgia, 'Times New Roman', serif">λ</text>
+        </svg>
+
+        <!-- AWS CodeBuild -->
+        <svg v-else-if="kind === 'codebuild'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <circle cx="50" cy="44" r="18" fill="none" stroke="white" stroke-width="5" opacity="0.9"/>
+            <circle cx="50" cy="44" r="7" fill="white" opacity="0.9"/>
+            <rect x="46" y="18" width="8" height="8" rx="2" fill="white" opacity="0.8"/>
+            <rect x="46" y="62" width="8" height="8" rx="2" fill="white" opacity="0.8"/>
+            <rect x="18" y="40" width="8" height="8" rx="2" fill="white" opacity="0.8"/>
+            <rect x="74" y="40" width="8" height="8" rx="2" fill="white" opacity="0.8"/>
+            <text x="50" y="86" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Arial, sans-serif">CB</text>
+        </svg>
+
+        <!-- AWS WorkSpaces -->
+        <svg v-else-if="kind === 'workspaces'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#FF9900"/>
+            <rect x="18" y="26" width="64" height="42" rx="4" fill="white" opacity="0.9"/>
+            <rect x="24" y="32" width="52" height="30" rx="2" fill="#FF9900" opacity="0.3"/>
+            <rect x="38" y="68" width="24" height="6" rx="2" fill="white" opacity="0.9"/>
+            <rect x="28" y="74" width="44" height="4" rx="2" fill="white" opacity="0.7"/>
+            <text x="50" y="86" text-anchor="middle" fill="white" font-weight="bold" font-size="13" font-family="Arial, sans-serif">WS</text>
+        </svg>
+
+        <!-- Connect Flows -->
+        <svg v-else-if="kind === 'connectflows'" viewBox="0 0 100 100" class="h-4/5 w-4/5" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" rx="12" fill="#00A1C9"/>
+            <circle cx="22" cy="32" r="9" fill="white" opacity="0.9"/>
+            <circle cx="78" cy="32" r="9" fill="white" opacity="0.9"/>
+            <circle cx="50" cy="68" r="9" fill="white" opacity="0.9"/>
+            <line x1="31" y1="32" x2="52" y2="60" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+            <line x1="69" y1="32" x2="58" y2="60" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+            <polygon points="52,62 46,54 58,54" fill="white" opacity="0.8"/>
+            <text x="50" y="90" text-anchor="middle" fill="white" font-weight="bold" font-size="11" font-family="Arial, sans-serif">CF</text>
+        </svg>
+
     </template>
 </template>

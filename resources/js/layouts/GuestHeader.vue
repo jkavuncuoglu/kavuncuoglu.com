@@ -15,7 +15,6 @@ const homeUrl = computed(() => `/${currentLocale.value}`);
 const aboutUrl = computed(() => `/${currentLocale.value}/about-me`);
 const skillsUrl = computed(() => `/${currentLocale.value}/skills`);
 const projectsUrl = computed(() => `/${currentLocale.value}/projects`);
-const chatUrl = computed(() => `/${currentLocale.value}/chat`);
 const contactUrl = computed(() => `/${currentLocale.value}/contact`);
 
 const { resolvedAppearance, updateAppearance } = useAppearance();
@@ -56,11 +55,6 @@ const mobileMenuOpen = ref(false);
                         class="text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
                     >{{ t('nav.projects') }}</Link>
                     <Link
-                        :href="chatUrl"
-                        class="text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
-                        >{{ t('nav.chat') }}</Link
-                    >
-                    <Link
                         :href="contactUrl"
                         class="text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
                         >{{ t('nav.contact') }}</Link
@@ -71,8 +65,8 @@ const mobileMenuOpen = ref(false);
                         class="flex h-8 w-8 items-center justify-center rounded-md text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
                         :aria-label="
                             resolvedAppearance === 'dark'
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
+                                ? t('nav.switch_light')
+                                : t('nav.switch_dark')
                         "
                     >
                         <Sun v-if="resolvedAppearance === 'dark'" class="h-4 w-4" />
@@ -104,8 +98,8 @@ const mobileMenuOpen = ref(false);
                         class="flex h-8 w-8 items-center justify-center rounded-md text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
                         :aria-label="
                             resolvedAppearance === 'dark'
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
+                                ? t('nav.switch_light')
+                                : t('nav.switch_dark')
                         "
                     >
                         <Sun v-if="resolvedAppearance === 'dark'" class="h-4 w-4" />
@@ -143,12 +137,6 @@ const mobileMenuOpen = ref(false);
                                     @click="mobileMenuOpen = false"
                                     class="text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
                                 >{{ t('nav.projects') }}</Link>
-                                <Link
-                                    :href="chatUrl"
-                                    @click="mobileMenuOpen = false"
-                                    class="text-sm text-[#706f6c] transition-colors hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:text-[#EDEDEC]"
-                                    >{{ t('nav.chat') }}</Link
-                                >
                                 <Link
                                     :href="contactUrl"
                                     @click="mobileMenuOpen = false"

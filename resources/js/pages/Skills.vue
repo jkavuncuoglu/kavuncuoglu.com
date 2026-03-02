@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, usePage } from '@inertiajs/vue3';
-import { Code2, Server, Shield, Cloud, Terminal, Database } from 'lucide-vue-next';
+import { Code2, Server, Shield, Cloud, Terminal, Database, Zap, BarChart3 } from 'lucide-vue-next';
 import { useI18n } from 'vue-i18n';
 import { ref, computed } from 'vue';
 import GuestLayout from '@/layouts/GuestLayout.vue';
@@ -114,12 +114,36 @@ const skills = computed<SkillCategory[]>(() => [
             { name: 'Neuron AI',      kind: 'neuronai' },
         ],
     },
+    {
+        category: t('welcome.skill_python'),
+        desc: t('welcome.skill_python_desc'),
+        icon: Zap,
+        items: [
+            { name: 'Python',       kind: 'python' },
+            { name: 'AWS Lambda',   kind: 'lambda' },
+            { name: 'Bash / Shell', kind: 'bash' },
+            { name: 'boto3',        kind: 'python' },
+            { name: 'Automation',   kind: 'agile' },
+        ],
+    },
+    {
+        category: t('welcome.skill_data'),
+        desc: t('welcome.skill_data_desc'),
+        icon: BarChart3,
+        items: [
+            { name: 'Redshift',      kind: 'redshift' },
+            { name: 'MySQL',         kind: 'mysql' },
+            { name: 'PostgreSQL',    kind: 'postgresql' },
+            { name: 'ETL Pipelines', kind: 'codebuild' },
+            { name: 'Data Migration', kind: 'agile' },
+        ],
+    },
 ]);
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Skills & Technologies — Jeremy C Kavuncuoglu">
+        <Head :title="t('skills.page_title')">
             <meta
                 name="description"
                 content="Explore Jeremy Kavuncuoglu's full skill set: frontend, backend, DevOps, cloud, security, and the technologies behind his work."
@@ -133,14 +157,13 @@ const skills = computed<SkillCategory[]>(() => [
                 <span
                     class="mb-4 inline-block rounded-full border border-[#e3e3e0] px-3 py-1 text-xs font-medium tracking-widest text-[#706f6c] uppercase dark:border-[#2a2a28] dark:text-[#A1A09A]"
                 >
-                    Skills &amp; Technologies
+                    {{ t('skills.badge') }}
                 </span>
                 <h1 class="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-                    What I Work With
+                    {{ t('skills.heading') }}
                 </h1>
                 <p class="mx-auto max-w-2xl text-lg leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                    A decade of hands-on engineering across the full stack — from pixel-perfect Vue interfaces
-                    to production AWS infrastructure and HIPAA-grade security controls.
+                    {{ t('skills.intro') }}
                 </p>
             </div>
 
@@ -219,15 +242,15 @@ const skills = computed<SkillCategory[]>(() => [
 
             <!-- ─── CTA strip ─────────────────────────────────────── -->
             <div class="mt-16 rounded-2xl border border-[#e3e3e0] bg-[#f8f8f7] p-8 text-center dark:border-[#2a2a28] dark:bg-[#111110]">
-                <h2 class="mb-3 text-2xl font-bold tracking-tight">Want to work together?</h2>
+                <h2 class="mb-3 text-2xl font-bold tracking-tight">{{ t('skills.cta_heading') }}</h2>
                 <p class="mb-6 text-sm leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                    I'm available for freelance projects, consulting engagements, and full-time opportunities.
+                    {{ t('skills.cta_body') }}
                 </p>
                 <a
                     :href="contactUrl"
                     class="inline-flex items-center gap-2 rounded-lg bg-[#1b1b18] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2d2d2a] dark:bg-[#EDEDEC] dark:text-[#1b1b18] dark:hover:bg-white"
                 >
-                    Get in touch <span aria-hidden="true">→</span>
+                    {{ t('skills.cta_btn') }} <span aria-hidden="true">→</span>
                 </a>
             </div>
 
@@ -257,7 +280,7 @@ const skills = computed<SkillCategory[]>(() => [
 
                 <div v-if="selectedSkill?.items?.length" class="mt-2">
                     <p class="mb-3 text-xs font-medium uppercase tracking-wider text-[#706f6c] dark:text-[#A1A09A]">
-                        Technologies
+                        {{ t('skills.dialog_tech_label') }}
                     </p>
                     <div class="flex flex-wrap gap-3">
                         <div

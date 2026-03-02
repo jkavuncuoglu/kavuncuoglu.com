@@ -25,9 +25,10 @@ class PublicChatController extends Controller
             'messages.*.content' => 'required|string|max:4000',
         ]);
 
-        return response()->stream(function () use ($validated) {
+        return response()->stream(function () use ($validated, $request) {
             try {
                 $assistant = ChatAssistant::make();
+                $assistant->setLocale($request->route('locale', 'en'));
 
                 // Build messages array for the assistant
                 $messages = [];
@@ -52,6 +53,10 @@ class PublicChatController extends Controller
                     }
                 }
             } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Chat stream failed', [
+                    'message' => $e->getMessage(),
+                    'locale'  => $request->route('locale'),
+                ]);
                 echo "event: error\n";
                 echo 'data: ' . json_encode(['error' => 'Failed to generate response. Please try again.']) . "\n\n";
             }

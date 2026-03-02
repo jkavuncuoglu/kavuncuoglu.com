@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from 'vue';
+import { ref, nextTick, watch, computed } from 'vue';
 import { MessageSquare, X, SendHorizontal, Bot, User, Trash2 } from 'lucide-vue-next';
 import { usePublicChat } from '@/composables/usePublicChat';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const isOpen = ref(false);
 const inputText = ref('');
@@ -9,12 +12,12 @@ const messagesContainer = ref<HTMLDivElement | null>(null);
 
 const { messages, isStreaming, streamingContent, error, sendMessage, clearChat } = usePublicChat();
 
-const examplePrompts = [
-    'What\'s your experience with AWS?',
-    'Tell me about your Laravel projects',
-    'How do you approach DevOps and security?',
-    'What does your typical tech stack look like?',
-];
+const examplePrompts = computed(() => [
+    t('chat.bubble_prompt_1'),
+    t('chat.bubble_prompt_2'),
+    t('chat.bubble_prompt_3'),
+    t('chat.bubble_prompt_4'),
+]);
 
 function toggleOpen() {
     isOpen.value = !isOpen.value;
@@ -81,7 +84,7 @@ watch([() => messages.value.length, () => streamingContent.value], scrollToBotto
                             v-if="messages.length > 0"
                             @click="clearChat"
                             class="flex h-7 w-7 items-center justify-center rounded-md text-[#706f6c] transition-colors hover:bg-[#f4f4f2] hover:text-[#1b1b18] dark:text-[#A1A09A] dark:hover:bg-[#1f1f1f] dark:hover:text-[#EDEDEC]"
-                            title="Clear chat"
+                            :title="t('chat.bubble_clear_title')"
                         >
                             <Trash2 class="h-3.5 w-3.5" />
                         </button>
@@ -100,23 +103,22 @@ watch([() => messages.value.length, () => streamingContent.value], scrollToBotto
                         <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4f4f2] dark:bg-[#1f1f1f]">
                             <Bot class="h-6 w-6 text-[#1b1b18] dark:text-[#EDEDEC]" />
                         </div>
-                        <p class="mb-1 font-semibold">Ask me anything about Jeremy</p>
+                        <p class="mb-1 font-semibold">{{ t('chat.bubble_heading') }}</p>
                         <p class="text-xs leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                            I'm a locally-run AI trained on Jeremy's work history, projects, and expertise.
-                            Ask me about his skills, experience, or how he might help your team.
+                            {{ t('chat.bubble_intro') }}
                         </p>
                     </div>
 
                     <!-- Disclaimer -->
                     <div class="mb-4 rounded-lg border border-[#e3e3e0] bg-[#f8f8f7] px-3 py-2 dark:border-[#2a2a28] dark:bg-[#111110]">
                         <p class="text-[10px] leading-relaxed text-[#706f6c] dark:text-[#A1A09A]">
-                            <span class="font-medium text-[#1b1b18] dark:text-[#EDEDEC]">Heads up:</span>
-                            Responses are AI-generated and may not be 100% accurate. For important matters, verify directly via the contact form.
+                            <span class="font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{{ t('chat.bubble_disclaimer_label') }}</span>
+                            {{ t('chat.bubble_disclaimer_body') }}
                         </p>
                     </div>
 
                     <!-- Example prompts -->
-                    <p class="mb-2 text-[10px] font-medium uppercase tracking-wider text-[#706f6c] dark:text-[#A1A09A]">Try asking</p>
+                    <p class="mb-2 text-[10px] font-medium uppercase tracking-wider text-[#706f6c] dark:text-[#A1A09A]">{{ t('chat.bubble_try_asking') }}</p>
                     <div class="flex flex-col gap-2">
                         <button
                             v-for="prompt in examplePrompts"
@@ -191,7 +193,7 @@ watch([() => messages.value.length, () => streamingContent.value], scrollToBotto
                     <div class="flex items-end gap-2">
                         <textarea
                             v-model="inputText"
-                            placeholder="Ask something…"
+                            :placeholder="t('chat.bubble_placeholder')"
                             :disabled="isStreaming"
                             rows="1"
                             @keydown="handleKeydown"
@@ -206,7 +208,7 @@ watch([() => messages.value.length, () => streamingContent.value], scrollToBotto
                         </button>
                     </div>
                     <p class="mt-1.5 text-center text-[9px] text-[#A1A09A] dark:text-[#706f6c]">
-                        AI responses may be inaccurate · Runs fully on-premise
+                        {{ t('chat.bubble_footer') }}
                     </p>
                 </div>
             </div>
@@ -221,7 +223,7 @@ watch([() => messages.value.length, () => streamingContent.value], scrollToBotto
                     ? 'bg-[#2d2d2a] dark:bg-[#EDEDEC]'
                     : 'bg-[#1b1b18] dark:bg-[#EDEDEC]',
             ]"
-            aria-label="Toggle AI chat"
+            :aria-label="t('chat.bubble_toggle_label')"
         >
             <Transition
                 enter-active-class="transition duration-150"
